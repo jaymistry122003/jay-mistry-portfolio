@@ -11,6 +11,7 @@ export interface SiteConfig {
     github: string;
     linkedin: string;
     email: string;
+    phone: string;
   };
 }
 
@@ -23,16 +24,18 @@ export const siteConfig: SiteConfig = {
   resumeUrl: "/resume.pdf",
   contactApiEndpoint: import.meta.env.PUBLIC_CONTACT_API_ENDPOINT || "/api/contact",
   navLinks: [
-    { label: "About", href: "#about" },
-    { label: "Skills", href: "#skills" },
-    { label: "Projects", href: "#projects" },
-    { label: "Experience", href: "#experience" },
-    { label: "Education", href: "#education" },
-    { label: "Contact", href: "#contact" }
+    { label: "About", href: "/#about" },
+    { label: "Skills", href: "/#skills" },
+    { label: "Projects", href: "/#projects" },
+    { label: "Experience", href: "/#experience" },
+    { label: "Education", href: "/#education" },
+    { label: "Certifications", href: "/#certifications" },
+    { label: "Contact", href: "/#contact" }
   ],
   socialLinks: {
     github: "https://github.com/jaymistry122003",
     linkedin: "https://www.linkedin.com/in/jaymistry1301/",
-    email: "jaymistry7046@gmail.com"
+    email: "jaymistry7046@gmail.com",
+    phone: "+91 7046770994"
   }
 };

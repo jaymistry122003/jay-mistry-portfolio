@@ -39,6 +39,13 @@ import { siteConfig } from '../data/siteConfig';
             </div>
 
             <div class="p-3.5 rounded-md bg-[#090a0d] border border-white/10 space-y-1">
+              <span class="text-slate-500 block text-[11px]">PHONE / MOBILE</span>
+              <a href={`tel:${siteConfig.socialLinks.phone.replace(/\s+/g, '')}`} class="font-bold text-white hover:text-yellow-400 transition-colors">
+                {siteConfig.socialLinks.phone}
+              </a>
+            </div>
+
+            <div class="p-3.5 rounded-md bg-[#090a0d] border border-white/10 space-y-1">
               <span class="text-slate-500 block text-[11px]">GITHUB REPOSITORY</span>
               <span class="font-bold text-yellow-400">{siteConfig.socialLinks.github}</span>
             </div>

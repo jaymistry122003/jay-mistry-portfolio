@@ -58,6 +58,12 @@ import { siteConfig } from '../data/siteConfig';
               {siteConfig.socialLinks.email}
             </a>
           </div>
+          <div>
+            <span class="text-slate-500">Phone: </span>
+            <a href={`tel:${siteConfig.socialLinks.phone.replace(/\s+/g, '')}`} class="hover:text-yellow-400 transition-colors font-medium">
+              {siteConfig.socialLinks.phone}
+            </a>
+          </div>
           <div class="pt-1">
             <a href={siteConfig.resumeUrl} download class="text-yellow-400 hover:underline font-bold inline-flex items-center gap-1">
               <span>Resume (PDF)</span>

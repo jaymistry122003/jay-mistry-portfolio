@@ -8,7 +8,7 @@ const currentPath = Astro.url.pathname;
   <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
     
     {/* Brand Logo & Monogram */}
-    <a href="/" class="flex items-center gap-3 group text-left">
+    <a id="brand-logo-link" href="/" class="flex items-center gap-3 group text-left">
       <div class="w-9 h-9 rounded-md bg-yellow-400 text-black font-mono font-extrabold text-sm flex items-center justify-center shadow-[0_0_15px_rgba(234,179,8,0.3)] group-hover:scale-105 transition-all">
         JM
       </div>
@@ -101,18 +101,74 @@ const currentPath = Astro.url.pathname;
     }
 
     const header = document.getElementById('main-header');
-    if (!header) return;
+    if (header) {
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 50) {
+          header.classList.add('border-yellow-500/30', 'shadow-[0_4px_30px_rgba(0,0,0,0.8)]');
+          header.classList.remove('border-white/10');
+        } else {
+          header.classList.remove('border-yellow-500/30', 'shadow-[0_4px_30px_rgba(0,0,0,0.8)]');
+          header.classList.add('border-white/10');
+        }
+      }, { passive: true });
+    }
 
-    window.addEventListener('scroll', () => {
-      if (window.scrollY > 50) {
-        header.classList.add('border-yellow-500/30', 'shadow-[0_4px_30px_rgba(0,0,0,0.8)]');
-        header.classList.remove('border-white/10');
-      } else {
-        header.classList.remove('border-yellow-500/30', 'shadow-[0_4px_30px_rgba(0,0,0,0.8)]');
-        header.classList.add('border-white/10');
-      }
-    }, { passive: true });
+    // Handle Brand Logo click for smooth scroll to top when on home page
+    const logoLink = document.getElementById('brand-logo-link');
+    if (logoLink) {
+      logoLink.addEventListener('click', (e) => {
+        if (window.location.pathname === '/' || window.location.pathname === '') {
+          e.preventDefault();
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+          history.pushState(null, '', '/');
+        }
+      });
+    }
+
+    // Intercept clicks on section links for smooth scroll when already on home page
+    const navLinks = document.querySelectorAll<HTMLAnchorElement>('a[href^="/#"]');
+    navLinks.forEach((link) => {
+      link.addEventListener('click', (e) => {
+        const href = link.getAttribute('href');
+        if (!href) return;
+        const targetId = href.replace('/#', '');
+        const targetElement = document.getElementById(targetId);
+
+        // If target section exists on current page, smooth scroll to it directly
+        if (targetElement && (window.location.pathname === '/' || window.location.pathname === '')) {
+          e.preventDefault();
+          targetElement.scrollIntoView({ behavior: 'smooth' });
+          history.pushState(null, '', href);
+        }
+      });
+    });
   }
 
-  document.addEventListener('DOMContentLoaded', setupHeaderBehavior);
+  function handleHashScroll() {
+    if (window.location.hash) {
+      const targetId = window.location.hash.substring(1);
+      
+      const tryScroll = (attemptsLeft: number) => {
+        const targetElement = document.getElementById(targetId);
+        if (targetElement) {
+          targetElement.scrollIntoView({ behavior: 'smooth' });
+        } else if (attemptsLeft > 0) {
+          setTimeout(() => tryScroll(attemptsLeft - 1), 100);
+        }
+      };
+
+      // Allow initial page layout / hydration render to stabilize
+      setTimeout(() => tryScroll(5), 100);
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    setupHeaderBehavior();
+    handleHashScroll();
+  });
+
+  document.addEventListener('astro:page-load', () => {
+    setupHeaderBehavior();
+    handleHashScroll();
+  });
 </script>
