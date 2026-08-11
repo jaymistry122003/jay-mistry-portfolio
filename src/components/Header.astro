@@ -1,0 +1,118 @@
+---
+import { siteConfig } from '../data/siteConfig';
+
+const currentPath = Astro.url.pathname;
+---
+
+<header id="main-header" class="w-full border-b border-white/10 bg-[#090a0d]/85 backdrop-blur-xl sticky top-0 z-40 navbar-entrance transition-all duration-300">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+    
+    {/* Brand Logo & Monogram */}
+    <a href="/" class="flex items-center gap-3 group text-left">
+      <div class="w-9 h-9 rounded-md bg-yellow-400 text-black font-mono font-extrabold text-sm flex items-center justify-center shadow-[0_0_15px_rgba(234,179,8,0.3)] group-hover:scale-105 transition-all">
+        JM
+      </div>
+      <div class="flex flex-col">
+        <span class="font-bold text-base tracking-tight text-white group-hover:text-yellow-400 transition-colors">
+          {siteConfig.name}
+        </span>
+        <span class="text-xs text-slate-400 font-mono tracking-wide">
+          {siteConfig.role}
+        </span>
+      </div>
+    </a>
+
+    {/* Desktop Navigation Links */}
+    <nav class="hidden md:flex items-center gap-8" aria-label="Main Navigation">
+      {siteConfig.navLinks.map((link) => {
+        const isActive = currentPath === link.href || (link.href !== '/' && currentPath.startsWith(link.href));
+        return (
+          <a
+            href={link.href}
+            class={`text-sm font-medium transition-colors link-editorial ${isActive ? 'nav-link-active' : 'text-slate-300 hover:text-yellow-400'}`}
+          >
+            {link.label}
+          </a>
+        );
+      })}
+    </nav>
+
+    {/* Resume CTA Button */}
+    <div class="hidden sm:flex items-center gap-4">
+      <a
+        href={siteConfig.resumeUrl}
+        download
+        class="inline-flex items-center gap-2 px-4 py-2 rounded-md text-xs font-mono font-semibold uppercase tracking-wider text-yellow-400 bg-yellow-500/10 border border-yellow-500/40 hover:bg-yellow-400 hover:text-black transition-all duration-200 shadow-[0_0_15px_rgba(234,179,8,0.15)]"
+        aria-label="Download Jay G Mistry's Resume PDF"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+          <polyline points="7 10 12 15 17 10"></polyline>
+          <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+        <span>Download Resume</span>
+      </a>
+    </div>
+
+    {/* Mobile Menu Details */}
+    <details id="mobile-nav-details" class="md:hidden relative group">
+      <summary class="list-none p-2 rounded-md border border-white/10 text-white cursor-pointer hover:bg-white/5 focus-visible:outline-none" aria-label="Toggle navigation menu">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="4" y1="12" x2="20" y2="12"></line>
+          <line x1="4" y1="6" x2="20" y2="6"></line>
+          <line x1="4" y1="18" x2="20" y2="18"></line>
+        </svg>
+      </summary>
+      
+      <div class="absolute right-0 mt-3 w-56 p-4 bg-[#0f1118] border border-white/10 rounded-lg shadow-2xl z-50 space-y-3 text-left">
+        {siteConfig.navLinks.map((link) => (
+          <a
+            href={link.href}
+            class="mobile-nav-link block text-sm font-medium text-slate-300 hover:text-yellow-400 transition-colors py-1"
+          >
+            {link.label}
+          </a>
+        ))}
+        <div class="pt-3 border-t border-white/10">
+          <a
+            href={siteConfig.resumeUrl}
+            download
+            class="w-full inline-flex items-center justify-center gap-2 px-3 py-2 rounded-md text-xs font-mono font-semibold uppercase tracking-wider text-yellow-400 bg-yellow-500/10 border border-yellow-500/40"
+          >
+            <span>Download Resume</span>
+          </a>
+        </div>
+      </div>
+    </details>
+
+  </div>
+</header>
+
+<script>
+  function setupHeaderBehavior() {
+    const details = document.getElementById('mobile-nav-details') as HTMLDetailsElement | null;
+    if (details) {
+      const links = details.querySelectorAll('.mobile-nav-link');
+      links.forEach((link) => {
+        link.addEventListener('click', () => {
+          details.removeAttribute('open');
+        });
+      });
+    }
+
+    const header = document.getElementById('main-header');
+    if (!header) return;
+
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 50) {
+        header.classList.add('border-yellow-500/30', 'shadow-[0_4px_30px_rgba(0,0,0,0.8)]');
+        header.classList.remove('border-white/10');
+      } else {
+        header.classList.remove('border-yellow-500/30', 'shadow-[0_4px_30px_rgba(0,0,0,0.8)]');
+        header.classList.add('border-white/10');
+      }
+    }, { passive: true });
+  }
+
+  document.addEventListener('DOMContentLoaded', setupHeaderBehavior);
+</script>

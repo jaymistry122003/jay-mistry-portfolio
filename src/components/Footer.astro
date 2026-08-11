@@ -1,0 +1,82 @@
+---
+import { siteConfig } from '../data/siteConfig';
+---
+
+<footer class="w-full border-t border-white/10 bg-[#090a0d] mt-auto py-12 text-slate-400 text-xs scroll-reveal">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+    
+    <div class="grid grid-cols-1 md:grid-cols-12 gap-8 text-left border-b border-white/10 pb-8">
+      
+      {/* Column 1: Brand & Role */}
+      <div class="md:col-span-5 space-y-3">
+        <div class="flex items-center gap-2.5">
+          <div class="w-7 h-7 rounded-md bg-yellow-400 text-black font-mono font-extrabold text-xs flex items-center justify-center shadow-[0_0_10px_rgba(234,179,8,0.4)]">
+            JM
+          </div>
+          <div class="flex flex-col">
+            <span class="font-bold text-sm text-white">{siteConfig.name}</span>
+            <span class="text-[11px] font-mono text-yellow-400">{siteConfig.role}</span>
+          </div>
+        </div>
+        <p class="text-xs text-slate-400 max-w-sm leading-relaxed">
+          Data, Business & BI Analyst focused on translating operational data into business decisions, interactive Power BI dashboards, and AI analytical systems.
+        </p>
+      </div>
+
+      {/* Column 2: Navigation Links */}
+      <div class="md:col-span-4 space-y-2">
+        <div class="font-mono text-[11px] font-semibold text-white uppercase tracking-wider">Navigation</div>
+        <div class="grid grid-cols-2 gap-2 text-xs font-medium text-slate-300">
+          <a href="/#about" class="hover:text-yellow-400 transition-colors">About</a>
+          <a href="/#skills" class="hover:text-yellow-400 transition-colors">Toolkit</a>
+          <a href="/#projects" class="hover:text-yellow-400 transition-colors">Featured Projects</a>
+          <a href="/#experience" class="hover:text-yellow-400 transition-colors">Experience</a>
+          <a href="/#education" class="hover:text-yellow-400 transition-colors">Education</a>
+          <a href="/#contact" class="hover:text-yellow-400 transition-colors">Contact</a>
+        </div>
+      </div>
+
+      {/* Column 3: Professional Channels */}
+      <div class="md:col-span-3 space-y-2">
+        <div class="font-mono text-[11px] font-semibold text-white uppercase tracking-wider">Professional Links</div>
+        <div class="space-y-1.5 text-xs font-mono text-slate-300">
+          <div>
+            <span class="text-slate-500">LinkedIn: </span>
+            <a href={siteConfig.socialLinks.linkedin} target="_blank" rel="noreferrer" class="text-yellow-400 hover:text-yellow-300 transition-colors font-semibold">
+              {siteConfig.socialLinks.linkedin}
+            </a>
+          </div>
+          <div>
+            <span class="text-slate-500">GitHub: </span>
+            <a href={siteConfig.socialLinks.github} target="_blank" rel="noreferrer" class="text-yellow-400 hover:text-yellow-300 transition-colors font-semibold">
+              {siteConfig.socialLinks.github}
+            </a>
+          </div>
+          <div>
+            <span class="text-slate-500">Email: </span>
+            <a href={`mailto:${siteConfig.socialLinks.email}`} class="hover:text-yellow-400 transition-colors font-medium">
+              {siteConfig.socialLinks.email}
+            </a>
+          </div>
+          <div class="pt-1">
+            <a href={siteConfig.resumeUrl} download class="text-yellow-400 hover:underline font-bold inline-flex items-center gap-1">
+              <span>Resume (PDF)</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    {/* Bottom Bar */}
+    <div class="flex flex-col sm:flex-row items-center justify-between gap-4 font-mono text-[11px] text-slate-500">
+      <div>
+        © {new Date().getFullYear()} {siteConfig.name}. All rights reserved.
+      </div>
+      <div>
+        Built with Astro.js & Tailwind CSS v4 • Futuristic Dark & Yellow Theme
+      </div>
+    </div>
+
+  </div>
+</footer>

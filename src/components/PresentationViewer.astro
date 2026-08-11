@@ -1,0 +1,682 @@
+---
+interface Props {
+  pdfUrl: string;
+  title: string;
+  downloadUrl?: string;
+  initialPage?: number;
+}
+
+const {
+  pdfUrl,
+  title,
+  downloadUrl = pdfUrl,
+  initialPage = 1
+} = Astro.props;
+
+// Unique ID for multiple viewers if needed
+const viewerId = `pv-${Math.random().toString(36).substring(2, 9)}`;
+---
+
+<div class="presentation-viewer-root space-y-6 pt-10 border-t border-white/10" id={viewerId} data-pdf-url={pdfUrl} data-initial-page={initialPage}>
+  
+  {/* Header Section */}
+  <div class="space-y-2">
+    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-md text-xs font-mono font-bold text-yellow-400 bg-yellow-500/10 border border-yellow-500/30">
+      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+        <polyline points="14 2 14 8 20 8"></polyline>
+        <line x1="16" y1="13" x2="8" y2="13"></line>
+        <line x1="16" y1="17" x2="8" y2="17"></line>
+      </svg>
+      <span>DETAILED PRESENTATION</span>
+    </div>
+    <h3 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+      {title}
+    </h3>
+    <p class="text-xs sm:text-sm font-mono text-slate-400">
+      Explore the complete analysis, insights and recommendations.
+    </p>
+  </div>
+
+  {/* Main Presentation Container */}
+  <div class="viewer-container relative rounded-2xl bg-[#0f1118]/90 backdrop-blur-xl border border-white/15 shadow-[0_10px_40px_rgba(0,0,0,0.8)] overflow-hidden flex flex-col transition-all duration-300">
+    
+    {/* Top Toolbar */}
+    <div class="top-bar flex flex-wrap items-center justify-between gap-3 p-3.5 sm:p-4 bg-[#090a0d]/90 border-b border-white/10 text-xs font-mono select-none">
+      
+      {/* Left: Counter badge */}
+      <div class="flex items-center gap-2">
+        <span class="px-3 py-1 rounded-md bg-[#161924] border border-white/10 font-bold text-yellow-400 flex items-center gap-2 shadow-inner">
+          <span class="w-2 h-2 rounded-full bg-yellow-400 animate-pulse"></span>
+          <span>SLIDE <span class="current-page-text">01</span> / <span class="total-pages-text">--</span></span>
+        </span>
+      </div>
+
+      {/* Right: Controls (Zoom, Fullscreen, Download) */}
+      <div class="flex items-center gap-1.5 sm:gap-2">
+        
+        {/* Zoom Out */}
+        <button
+          type="button"
+          class="btn-zoom-out p-2 rounded-lg bg-[#161924] hover:bg-yellow-500/20 hover:text-yellow-400 text-slate-300 border border-white/10 transition-colors focus:outline-none focus:ring-2 focus:ring-yellow-400"
+          title="Zoom Out"
+          aria-label="Zoom out slide"
+        >
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+          </svg>
+        </button>
+
+        {/* Zoom Level Indicator */}
+        <span class="zoom-level-text min-w-[50px] text-center px-2 py-1 bg-[#090a0d] rounded-md border border-white/10 text-[11px] text-yellow-400 font-bold">
+          100%
+        </span>
+
+        {/* Zoom In */}
+        <button
+          type="button"
+          class="btn-zoom-in p-2 rounded-lg bg-[#161924] hover:bg-yellow-500/20 hover:text-yellow-400 text-slate-300 border border-white/10 transition-colors focus:outline-none focus:ring-2 focus:ring-yellow-400"
+          title="Zoom In"
+          aria-label="Zoom in slide"
+        >
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="12" y1="5" x2="12" y2="19"></line>
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+          </svg>
+        </button>
+
+        {/* Zoom Reset / Fit */}
+        <button
+          type="button"
+          class="btn-zoom-fit px-2.5 py-1.5 rounded-lg bg-[#161924] hover:bg-yellow-500/20 hover:text-yellow-400 text-slate-300 border border-white/10 text-[11px] font-bold transition-colors focus:outline-none focus:ring-2 focus:ring-yellow-400"
+          title="Reset Zoom to Fit"
+          aria-label="Reset zoom to fit screen"
+        >
+          Fit
+        </button>
+
+        <div class="h-4 w-[1px] bg-white/10 mx-1"></div>
+
+        {/* Fullscreen Toggle */}
+        <button
+          type="button"
+          class="btn-fullscreen px-2.5 py-1.5 rounded-lg bg-[#161924] hover:bg-yellow-500/20 hover:text-yellow-400 text-slate-300 border border-white/10 text-[11px] font-bold transition-colors inline-flex items-center gap-1.5 focus:outline-none focus:ring-2 focus:ring-yellow-400"
+          title="Toggle Fullscreen"
+          aria-label="Toggle fullscreen mode"
+        >
+          <svg class="icon-expand" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path>
+          </svg>
+          <svg class="icon-compress hidden" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M8 3v3a2 2 0 0 1-2 2H3m18 0h-3a2 2 0 0 1-2-2V3m0 18v-3a2 2 0 0 1 2-2h3M3 16h3a2 2 0 0 1 2 2v3"></path>
+          </svg>
+          <span class="btn-fs-text hidden sm:inline">Fullscreen</span>
+        </button>
+
+        {/* Download PDF */}
+        <a
+          href={downloadUrl}
+          download
+          target="_blank"
+          rel="noreferrer"
+          class="btn-download px-3 py-1.5 rounded-lg bg-yellow-500/10 hover:bg-yellow-400 text-yellow-400 hover:text-black border border-yellow-500/30 text-[11px] font-extrabold transition-all inline-flex items-center gap-1.5 shadow-[0_0_10px_rgba(234,179,8,0.15)] focus:outline-none focus:ring-2 focus:ring-yellow-400"
+          title="Download Original PDF"
+          aria-label="Download presentation PDF"
+        >
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+          </svg>
+          <span>Download PDF</span>
+        </a>
+
+      </div>
+    </div>
+
+    {/* Top Yellow Progress Bar */}
+    <div class="w-full bg-[#161924] h-1 relative overflow-hidden">
+      <div class="progress-bar-fill h-full bg-yellow-400 transition-all duration-300 w-0 shadow-[0_0_8px_#facc15]"></div>
+    </div>
+
+    {/* Presentation Stage Canvas Wrapper */}
+    <div
+      class="stage-wrapper relative min-h-[380px] sm:min-h-[540px] flex items-center justify-center p-4 sm:p-8 bg-[#090a0d]/95 overflow-auto focus:outline-none"
+      tabindex="0"
+      aria-label="Presentation slideshow stage. Use left and right arrow keys to change slides."
+    >
+      
+      {/* Loading Overlay */}
+      <div class="loading-state absolute inset-0 flex flex-col items-center justify-center bg-[#090a0d]/95 z-30 space-y-4">
+        <div class="w-12 h-12 rounded-full border-3 border-yellow-500/20 border-t-yellow-400 animate-spin shadow-[0_0_20px_rgba(234,179,8,0.3)]"></div>
+        <div class="text-xs font-mono text-yellow-400 font-bold tracking-widest uppercase flex items-center gap-2">
+          <span class="w-2 h-2 rounded-full bg-yellow-400 animate-pulse"></span>
+          <span>Loading Presentation Deck...</span>
+        </div>
+      </div>
+
+      {/* Error Fallback State */}
+      <div class="error-state hidden absolute inset-0 flex-col items-center justify-center bg-[#090a0d]/95 z-30 p-6 text-center space-y-4">
+        <div class="w-12 h-12 rounded-full bg-rose-500/10 border border-rose-500/30 text-rose-400 flex items-center justify-center font-bold text-xl">
+          !
+        </div>
+        <div class="space-y-1">
+          <h4 class="text-base font-bold text-white">Unable to load presentation.</h4>
+          <p class="text-xs font-mono text-slate-400 max-w-sm">
+            The presentation document could not be rendered interactively in browser preview mode.
+          </p>
+        </div>
+        <a
+          href={downloadUrl}
+          target="_blank"
+          rel="noreferrer"
+          class="px-5 py-2.5 rounded-md bg-yellow-400 hover:bg-yellow-300 text-black text-xs font-mono font-extrabold shadow-[0_0_15px_rgba(234,179,8,0.3)] transition-colors inline-flex items-center gap-2"
+        >
+          <span>Open PDF Directly ↗</span>
+        </a>
+      </div>
+
+      {/* Canvas Slide Render Surface */}
+      <div class="slide-stage relative flex items-center justify-center transition-all duration-300 max-w-full max-h-full">
+        <canvas
+          class="pdf-canvas rounded-lg border border-white/10 shadow-[0_15px_35px_rgba(0,0,0,0.9)] max-w-full transition-all duration-300"
+          style="object-fit: contain; transform-origin: center center;"
+        ></canvas>
+      </div>
+
+      {/* Floating On-Canvas Prev / Next Arrows */}
+      <button
+        type="button"
+        class="btn-prev absolute left-3 sm:left-6 top-1/2 -translate-y-1/2 p-3 rounded-full bg-[#0f1118]/80 hover:bg-yellow-400 text-white hover:text-black border border-white/20 hover:border-yellow-400 backdrop-blur-md shadow-xl transition-all duration-200 disabled:opacity-20 disabled:pointer-events-none z-20 focus:outline-none focus:ring-2 focus:ring-yellow-400"
+        aria-label="Previous slide"
+      >
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="15 18 9 12 15 6"></polyline>
+        </svg>
+      </button>
+
+      <button
+        type="button"
+        class="btn-next absolute right-3 sm:right-6 top-1/2 -translate-y-1/2 p-3 rounded-full bg-[#0f1118]/80 hover:bg-yellow-400 text-white hover:text-black border border-white/20 hover:border-yellow-400 backdrop-blur-md shadow-xl transition-all duration-200 disabled:opacity-20 disabled:pointer-events-none z-20 focus:outline-none focus:ring-2 focus:ring-yellow-400"
+        aria-label="Next slide"
+      >
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="9 18 15 12 9 6"></polyline>
+        </svg>
+      </button>
+
+    </div>
+
+    {/* Bottom Control Bar */}
+    <div class="bottom-bar flex flex-wrap items-center justify-between gap-4 p-3.5 sm:p-4 bg-[#090a0d]/90 border-t border-white/10 text-xs font-mono select-none">
+      
+      <button
+        type="button"
+        class="btn-prev-bottom inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-[#161924] hover:bg-yellow-500/20 text-slate-200 hover:text-yellow-400 border border-white/10 transition-colors disabled:opacity-30 disabled:pointer-events-none focus:outline-none focus:ring-2 focus:ring-yellow-400"
+        aria-label="Previous slide"
+      >
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="15 18 9 12 15 6"></polyline>
+        </svg>
+        <span>Previous</span>
+      </button>
+
+      {/* Page indicator text */}
+      <div class="flex items-center gap-2 font-mono text-slate-300 text-xs font-semibold">
+        <span>Slide</span>
+        <span class="current-page-num text-yellow-400 font-extrabold text-sm px-2 py-0.5 rounded bg-[#161924] border border-white/10 min-w-[28px] text-center">
+          1
+        </span>
+        <span class="text-slate-500">of</span>
+        <span class="total-page-num text-white font-bold">
+          --
+        </span>
+      </div>
+
+      <button
+        type="button"
+        class="btn-next-bottom inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-[#161924] hover:bg-yellow-500/20 text-slate-200 hover:text-yellow-400 border border-white/10 transition-colors disabled:opacity-30 disabled:pointer-events-none focus:outline-none focus:ring-2 focus:ring-yellow-400"
+        aria-label="Next slide"
+      >
+        <span>Next</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="9 18 15 12 9 6"></polyline>
+        </svg>
+      </button>
+
+    </div>
+
+    {/* Thumbnail Navigation Bar */}
+    <div class="thumbnail-strip-container bg-[#090a0d] border-t border-white/10 p-3 overflow-x-auto scrollbar-thin">
+      <div class="thumbnail-strip flex items-center gap-2.5 min-w-max">
+        {/* Rendered thumbnail buttons dynamically inserted by client script */}
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script is:inline>
+  (function initPresentationViewers() {
+    function loadPdfJs() {
+      return new Promise(function(resolve, reject) {
+        if (window.pdfjsLib) {
+          resolve(window.pdfjsLib);
+          return;
+        }
+        var script = document.createElement('script');
+        script.src = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js';
+        script.onload = function() {
+          if (window.pdfjsLib) {
+            window.pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+            resolve(window.pdfjsLib);
+          } else {
+            reject(new Error('PDF.js failed to initialize'));
+          }
+        };
+        script.onerror = function() {
+          reject(new Error('Failed to load PDF.js script from CDN'));
+        };
+        document.head.appendChild(script);
+      });
+    }
+
+    function setupViewer(root) {
+      if (root.dataset.initialized) return;
+      root.dataset.initialized = 'true';
+
+      var pdfUrl = root.getAttribute('data-pdf-url');
+      var initialPage = parseInt(root.getAttribute('data-initial-page') || '1', 10);
+
+      var pdfDoc = null;
+      var currentPage = initialPage;
+      var totalPages = 0;
+      var renderTask = null;
+      var currentZoom = 1.0;
+      var isRendering = false;
+      var pageCache = {};
+
+      // DOM elements
+      var container = root.querySelector('.viewer-container');
+      var canvas = root.querySelector('.pdf-canvas');
+      var ctx = canvas ? canvas.getContext('2d') : null;
+      var stageWrapper = root.querySelector('.stage-wrapper');
+      var slideStage = root.querySelector('.slide-stage');
+
+      var loadingState = root.querySelector('.loading-state');
+      var errorState = root.querySelector('.error-state');
+
+      var currentPageText = root.querySelector('.current-page-text');
+      var totalPagesText = root.querySelector('.total-pages-text');
+      var currentPageNum = root.querySelector('.current-page-num');
+      var totalPageNum = root.querySelector('.total-page-num');
+      var progressBarFill = root.querySelector('.progress-bar-fill');
+      var zoomLevelText = root.querySelector('.zoom-level-text');
+
+      var btnPrev = root.querySelectorAll('.btn-prev, .btn-prev-bottom');
+      var btnNext = root.querySelectorAll('.btn-next, .btn-next-bottom');
+      var btnZoomIn = root.querySelector('.btn-zoom-in');
+      var btnZoomOut = root.querySelector('.btn-zoom-out');
+      var btnZoomFit = root.querySelector('.btn-zoom-fit');
+      var btnFullscreen = root.querySelector('.btn-fullscreen');
+      var iconExpand = root.querySelector('.icon-expand');
+      var iconCompress = root.querySelector('.icon-compress');
+      var btnFsText = root.querySelector('.btn-fs-text');
+      var thumbnailStrip = root.querySelector('.thumbnail-strip');
+
+      function pad(num) {
+        return num < 10 ? '0' + num : '' + num;
+      }
+
+      function updateControls() {
+        if (currentPageText) currentPageText.textContent = pad(currentPage);
+        if (totalPagesText) totalPagesText.textContent = pad(totalPages);
+        if (currentPageNum) currentPageNum.textContent = '' + currentPage;
+        if (totalPageNum) totalPageNum.textContent = '' + totalPages;
+
+        var pct = totalPages > 1 ? ((currentPage - 1) / (totalPages - 1)) * 100 : 100;
+        if (progressBarFill) progressBarFill.style.width = pct + '%';
+
+        btnPrev.forEach(function(b) {
+          b.disabled = currentPage <= 1;
+        });
+
+        btnNext.forEach(function(b) {
+          b.disabled = currentPage >= totalPages;
+        });
+
+        if (zoomLevelText) {
+          zoomLevelText.textContent = Math.round(currentZoom * 100) + '%';
+        }
+
+        // Highlight active thumbnail
+        if (thumbnailStrip) {
+          var thumbs = thumbnailStrip.querySelectorAll('.thumb-btn');
+          thumbs.forEach(function(t, idx) {
+            if (idx + 1 === currentPage) {
+              t.classList.add('border-yellow-400', 'text-yellow-400', 'bg-yellow-500/15', 'shadow-[0_0_12px_rgba(234,179,8,0.3)]');
+              t.classList.remove('border-white/10', 'text-slate-400', 'bg-[#161924]');
+              t.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+            } else {
+              t.classList.remove('border-yellow-400', 'text-yellow-400', 'bg-yellow-500/15', 'shadow-[0_0_12px_rgba(234,179,8,0.3)]');
+              t.classList.add('border-white/10', 'text-slate-400', 'bg-[#161924]');
+            }
+          });
+        }
+      }
+
+      function getPageObj(pageNum) {
+        if (pageCache[pageNum]) return Promise.resolve(pageCache[pageNum]);
+        return pdfDoc.getPage(pageNum).then(function(page) {
+          pageCache[pageNum] = page;
+          return page;
+        });
+      }
+
+      function renderPage(pageNum, direction) {
+        if (!pdfDoc || !canvas || !ctx) return;
+        if (pageNum < 1 || pageNum > totalPages) return;
+
+        currentPage = pageNum;
+        updateControls();
+
+        if (renderTask) {
+          try { renderTask.cancel(); } catch (e) {}
+        }
+
+        isRendering = true;
+        var isReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        // Slide animation phase 1 (exit)
+        if (direction && !isReducedMotion && slideStage) {
+          var exitX = direction === 'next' ? '-30px' : '30px';
+          slideStage.style.transition = 'transform 0.15s ease-out, opacity 0.15s ease-out';
+          slideStage.style.transform = 'translateX(' + exitX + ')';
+          slideStage.style.opacity = '0.3';
+        }
+
+        getPageObj(pageNum).then(function(page) {
+          var containerWidth = stageWrapper.clientWidth - 48;
+          if (containerWidth < 280) containerWidth = 280;
+
+          var unscaledViewport = page.getViewport({ scale: 1.0 });
+          var fitScale = containerWidth / unscaledViewport.width;
+          var baseScale = fitScale * currentZoom;
+
+          var dpr = window.devicePixelRatio || 1;
+          var viewport = page.getViewport({ scale: baseScale * dpr });
+
+          canvas.width = viewport.width;
+          canvas.height = viewport.height;
+          canvas.style.width = (viewport.width / dpr) + 'px';
+          canvas.style.height = (viewport.height / dpr) + 'px';
+
+          var renderContext = {
+            canvasContext: ctx,
+            viewport: viewport
+          };
+
+          renderTask = page.render(renderContext);
+          return renderTask.promise;
+        }).then(function() {
+          isRendering = false;
+
+          if (loadingState) loadingState.classList.add('hidden');
+
+          // Slide animation phase 2 (enter per Section 30)
+          if (direction && !isReducedMotion && slideStage) {
+            var enterX = direction === 'next' ? '15px' : '-15px';
+            slideStage.style.transition = 'none';
+            slideStage.style.transform = 'translateX(' + enterX + ')';
+            slideStage.style.opacity = '0';
+            
+            void slideStage.offsetWidth; // force reflow
+
+            slideStage.style.transition = 'transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.3s cubic-bezier(0.22, 1, 0.36, 1)';
+            slideStage.style.transform = 'translateX(0)';
+            slideStage.style.opacity = '1';
+          } else if (slideStage) {
+            slideStage.style.transition = 'none';
+            slideStage.style.transform = 'none';
+            slideStage.style.opacity = '1';
+          }
+        }).catch(function(err) {
+          if (err && err.name === 'RenderingCancelledException') return;
+          console.error('Error rendering page:', err);
+          isRendering = false;
+          if (loadingState) loadingState.classList.add('hidden');
+          if (errorState) {
+            errorState.classList.remove('hidden');
+            errorState.classList.add('flex');
+          }
+        });
+      }
+
+      function goToPage(pageNum) {
+        if (pageNum === currentPage) return;
+        var dir = pageNum > currentPage ? 'next' : 'prev';
+        renderPage(pageNum, dir);
+      }
+
+      function generateThumbnails() {
+        if (!thumbnailStrip || !pdfDoc) return;
+        thumbnailStrip.innerHTML = '';
+
+        for (var i = 1; i <= totalPages; i++) {
+          (function(pageNum) {
+            var btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'thumb-btn flex flex-col items-center gap-1 p-1.5 rounded-lg border border-white/10 bg-[#161924] hover:border-yellow-400 text-slate-400 text-[10px] font-mono transition-all focus:outline-none';
+            btn.setAttribute('aria-label', 'Go to slide ' + pageNum);
+
+            var canvasThumb = document.createElement('canvas');
+            canvasThumb.className = 'rounded w-[50px] sm:w-[65px] h-auto bg-[#090a0d] border border-white/5';
+            btn.appendChild(canvasThumb);
+
+            var label = document.createElement('span');
+            label.className = 'font-bold';
+            label.textContent = pad(pageNum);
+            btn.appendChild(label);
+
+            btn.addEventListener('click', function() {
+              goToPage(pageNum);
+            });
+
+            thumbnailStrip.appendChild(btn);
+
+            // Lazy render thumbnail canvas
+            var thumbObserver = new IntersectionObserver(function(entries) {
+              entries.forEach(function(entry) {
+                if (entry.isIntersecting) {
+                  thumbObserver.unobserve(entry.target);
+                  pdfDoc.getPage(pageNum).then(function(page) {
+                    var thumbViewport = page.getViewport({ scale: 0.15 });
+                    var thumbCtx = canvasThumb.getContext('2d');
+                    canvasThumb.width = thumbViewport.width;
+                    canvasThumb.height = thumbViewport.height;
+                    page.render({ canvasContext: thumbCtx, viewport: thumbViewport });
+                  });
+                }
+              });
+            }, { root: thumbnailStrip, threshold: 0.1 });
+
+            thumbObserver.observe(btn);
+          })(i);
+        }
+      }
+
+      // Event Listeners
+      btnPrev.forEach(function(b) {
+        b.addEventListener('click', function() {
+          if (currentPage > 1) renderPage(currentPage - 1, 'prev');
+        });
+      });
+
+      btnNext.forEach(function(b) {
+        b.addEventListener('click', function() {
+          if (currentPage < totalPages) renderPage(currentPage + 1, 'next');
+        });
+      });
+
+      if (btnZoomIn) {
+        btnZoomIn.addEventListener('click', function() {
+          if (currentZoom < 2.5) {
+            currentZoom = Math.min(2.5, currentZoom + 0.25);
+            updateControls();
+            renderPage(currentPage);
+          }
+        });
+      }
+
+      if (btnZoomOut) {
+        btnZoomOut.addEventListener('click', function() {
+          if (currentZoom > 0.5) {
+            currentZoom = Math.max(0.5, currentZoom - 0.25);
+            updateControls();
+            renderPage(currentPage);
+          }
+        });
+      }
+
+      if (btnZoomFit) {
+        btnZoomFit.addEventListener('click', function() {
+          currentZoom = 1.0;
+          updateControls();
+          renderPage(currentPage);
+        });
+      }
+
+      if (btnFullscreen && container) {
+        btnFullscreen.addEventListener('click', function() {
+          if (!document.fullscreenElement) {
+            if (container.requestFullscreen) {
+              container.requestFullscreen();
+            } else if (container.webkitRequestFullscreen) {
+              container.webkitRequestFullscreen();
+            }
+          } else {
+            if (document.exitFullscreen) {
+              document.exitFullscreen();
+            } else if (document.webkitExitFullscreen) {
+              document.webkitExitFullscreen();
+            }
+          }
+        });
+
+        document.addEventListener('fullscreenchange', function() {
+          var isFS = !!document.fullscreenElement;
+          if (iconExpand) iconExpand.classList.toggle('hidden', isFS);
+          if (iconCompress) iconCompress.classList.toggle('hidden', !isFS);
+          if (btnFsText) btnFsText.textContent = isFS ? 'Exit' : 'Fullscreen';
+          
+          setTimeout(function() {
+            renderPage(currentPage);
+          }, 100);
+        });
+      }
+
+      // Keyboard navigation
+      function handleKeyDown(e) {
+        var activeTag = document.activeElement ? document.activeElement.tagName : '';
+        if (activeTag === 'INPUT' || activeTag === 'TEXTAREA' || activeTag === 'SELECT') {
+          return;
+        }
+
+        var rect = root.getBoundingClientRect();
+        var isVisible = rect.top < window.innerHeight && rect.bottom > 0;
+        if (!isVisible) return;
+
+        if (e.key === 'ArrowLeft' || e.key === 'PageUp' || e.key === 'k') {
+          if (currentPage > 1) {
+            e.preventDefault();
+            renderPage(currentPage - 1, 'prev');
+          }
+        } else if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === 'j') {
+          if (currentPage < totalPages) {
+            e.preventDefault();
+            renderPage(currentPage + 1, 'next');
+          }
+        } else if (e.key === 'Home') {
+          e.preventDefault();
+          goToPage(1);
+        } else if (e.key === 'End') {
+          e.preventDefault();
+          goToPage(totalPages);
+        }
+      }
+
+      document.addEventListener('keydown', handleKeyDown);
+
+      // Touch Swipe Gestures
+      var touchStartX = 0;
+      var touchStartY = 0;
+
+      if (stageWrapper) {
+        stageWrapper.addEventListener('touchstart', function(e) {
+          if (e.touches && e.touches.length === 1) {
+            touchStartX = e.touches[0].clientX;
+            touchStartY = e.touches[0].clientY;
+          }
+        }, { passive: true });
+
+        stageWrapper.addEventListener('touchend', function(e) {
+          if (e.changedTouches && e.changedTouches.length === 1) {
+            var touchEndX = e.changedTouches[0].clientX;
+            var touchEndY = e.changedTouches[0].clientY;
+            var deltaX = touchEndX - touchStartX;
+            var deltaY = touchEndY - touchStartY;
+
+            if (Math.abs(deltaX) > 40 && Math.abs(deltaX) > Math.abs(deltaY)) {
+              if (deltaX < 0 && currentPage < totalPages) {
+                renderPage(currentPage + 1, 'next');
+              } else if (deltaX > 0 && currentPage > 1) {
+                renderPage(currentPage - 1, 'prev');
+              }
+            }
+          }
+        }, { passive: true });
+      }
+
+      // Window resize
+      var resizeTimer;
+      window.addEventListener('resize', function() {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(function() {
+          if (pdfDoc) renderPage(currentPage);
+        }, 200);
+      });
+
+      // Load PDF
+      loadPdfJs().then(function(pdfjs) {
+        return pdfjs.getDocument(pdfUrl).promise;
+      }).then(function(doc) {
+        pdfDoc = doc;
+        totalPages = doc.numPages;
+        if (currentPage > totalPages) currentPage = 1;
+        updateControls();
+        generateThumbnails();
+        renderPage(currentPage);
+      }).catch(function(err) {
+        console.error('Failed to load PDF document:', err);
+        if (loadingState) loadingState.classList.add('hidden');
+        if (errorState) {
+          errorState.classList.remove('hidden');
+          errorState.classList.add('flex');
+        }
+      });
+    }
+
+    function initAll() {
+      var viewers = document.querySelectorAll('.presentation-viewer-root');
+      viewers.forEach(setupViewer);
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initAll);
+    } else {
+      initAll();
+    }
+
+    document.addEventListener('astro:page-load', initAll);
+  })();
+</script>

@@ -1,0 +1,205 @@
+---
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { siteConfig } from '../data/siteConfig';
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  type?: string;
+}
+
+const {
+  title = siteConfig.title,
+  description = siteConfig.description,
+  image = '/og-image.png',
+  type = 'website'
+} = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site || siteConfig.url);
+---
+
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    
+    <!-- Primary Meta Tags -->
+    <title>{title}</title>
+    <meta name="title" content={title} />
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalURL} />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content={type} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={new URL(image, canonicalURL)} />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content={canonicalURL} />
+    <meta property="twitter:title" content={title} />
+    <meta property="twitter:description" content={description} />
+    <meta property="twitter:image" content={new URL(image, canonicalURL)} />
+
+    <!-- Google Fonts: Plus Jakarta Sans & JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+
+    <!-- Progressive Enhancement Fallback (Section 53) -->
+    <noscript>
+      <style>
+        .scroll-reveal,
+        .scroll-reveal-left,
+        .scroll-reveal-right,
+        .scroll-reveal-scale,
+        .timeline-line,
+        [class*="hero-stagger-"],
+        .navbar-entrance {
+          opacity: 1 !important;
+          transform: none !important;
+          animation: none !important;
+        }
+      </style>
+    </noscript>
+  </head>
+  <body class="bg-[#090a0d] text-[#f3f4f6] antialiased selection:bg-yellow-500/20 selection:text-yellow-400 min-h-screen flex flex-col">
+    
+    <!-- Thin Top Scroll Progress Indicator Bar (Section 42) -->
+    <div id="scroll-progress-bar" class="fixed top-0 left-0 h-[2px] bg-yellow-400 z-50 transition-all duration-150 w-0 shadow-[0_0_8px_#facc15] pointer-events-none"></div>
+
+    <!-- Accessibility Skip Link -->
+    <a href="#main-content" class="skip-to-content">
+      Skip to main content
+    </a>
+
+    <!-- Header Navigation Shell -->
+    <Header />
+
+    <!-- Main Page Content -->
+    <main id="main-content" class="flex-1 w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+      <slot />
+    </main>
+
+    <!-- Footer Shell -->
+    <Footer />
+
+    <!-- Obvious & Premium GPU-Accelerated Scroll IntersectionObserver & Active Nav Script -->
+    <script is:inline>
+      (function initScrollMotionSystem() {
+        function setupScrollObserver() {
+          var elements = document.querySelectorAll(
+            '.scroll-reveal, .scroll-reveal-left, .scroll-reveal-right, .scroll-reveal-scale, .timeline-line'
+          );
+
+          if (!elements || elements.length === 0) return;
+
+          function revealElement(el) {
+            var delay = el.getAttribute('data-delay');
+            if (delay) {
+              setTimeout(function() {
+                el.classList.add('is-visible');
+              }, parseInt(delay, 10));
+            } else {
+              el.classList.add('is-visible');
+            }
+          }
+
+          if ('IntersectionObserver' in window) {
+            var observerOptions = {
+              root: null,
+              rootMargin: '50px 0px 50px 0px',
+              threshold: 0.05
+            };
+
+            var observer = new IntersectionObserver(function(entries) {
+              entries.forEach(function(entry) {
+                if (entry.isIntersecting) {
+                  revealElement(entry.target);
+                  observer.unobserve(entry.target);
+                }
+              });
+            }, observerOptions);
+
+            elements.forEach(function(el) {
+              // If already in viewport on initial load, reveal immediately
+              var rect = el.getBoundingClientRect();
+              if (rect.top < window.innerHeight && rect.bottom > 0) {
+                revealElement(el);
+              } else {
+                observer.observe(el);
+              }
+            });
+          } else {
+            elements.forEach(function(el) {
+              revealElement(el);
+            });
+          }
+        }
+
+        function setupScrollProgressBar() {
+          var progressBar = document.getElementById('scroll-progress-bar');
+          if (!progressBar) return;
+
+          window.addEventListener('scroll', function() {
+            var scrollTop = window.scrollY || document.documentElement.scrollTop;
+            var docHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            var pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+            progressBar.style.width = pct + '%';
+          }, { passive: true });
+        }
+
+        function setupActiveNavObserver() {
+          var sections = document.querySelectorAll('section[id]');
+          var navLinks = document.querySelectorAll('header nav a');
+          if (!sections || !navLinks) return;
+
+          var sectionObserver = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
+              if (entry.isIntersecting) {
+                var id = entry.target.getAttribute('id');
+                navLinks.forEach(function(link) {
+                  var href = link.getAttribute('href');
+                  if (href === '#' + id || href === '/' + '#' + id) {
+                    link.classList.add('nav-link-active');
+                  } else {
+                    link.classList.remove('nav-link-active');
+                  }
+                });
+              }
+            });
+          }, { threshold: 0.3 });
+
+          sections.forEach(function(sec) {
+            sectionObserver.observe(sec);
+          });
+        }
+
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', function() {
+            setupScrollObserver();
+            setupScrollProgressBar();
+            setupActiveNavObserver();
+          });
+        } else {
+          setupScrollObserver();
+          setupScrollProgressBar();
+          setupActiveNavObserver();
+        }
+
+        document.addEventListener('astro:page-load', function() {
+          setupScrollObserver();
+          setupScrollProgressBar();
+          setupActiveNavObserver();
+        });
+      })();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,212 @@
+---
+import { projectsData } from '../data/projectsData';
+
+const flagshipProject = projectsData.find(p => p.slug === 'ai-data-analyst-agent') || projectsData[0];
+const healthlinkProject = projectsData.find(p => p.slug === 'healthlink-solutions') || projectsData[1];
+---
+
+<section id="projects" class="py-16 sm:py-24 border-b border-[#e6e5df] text-left">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+    
+    {/* Section Header */}
+    <div class="space-y-3 max-w-3xl">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-md text-xs font-mono font-medium text-[#800020] bg-[rgba(128,0,32,0.06)] border border-[rgba(128,0,32,0.2)]">
+        <span class="w-1.5 h-1.5 rounded-full bg-[#800020]"></span>
+        <span>FLAGSHIP & FEATURED CASE STUDIES</span>
+      </div>
+      <h2 class="text-2xl sm:text-4xl font-extrabold text-[#121316] tracking-tight">
+        Featured <span class="text-[#800020]">Analytical Case Studies</span>.
+      </h2>
+      <p class="text-base text-[#4a4d55] max-w-2xl font-normal leading-relaxed">
+        Deep dives demonstrating how raw business data is transformed into strategic decisions, Power BI dashboards, and AI analytical systems.
+      </p>
+    </div>
+
+    {/* Project 01: FLAGSHIP AI Data Analyst Agent (Higher Visual Weight) */}
+    <div class="bg-white border-2 border-[#800020] rounded-lg p-6 sm:p-10 space-y-8 shadow-sm relative overflow-hidden group">
+      
+      {/* Editorial Header Bar */}
+      <div class="flex flex-wrap items-center justify-between gap-3 border-b border-[#e6e5df] pb-6">
+        <div class="flex items-center gap-3">
+          <span class="font-mono text-sm font-bold text-[#800020] bg-[rgba(128,0,32,0.06)] px-2.5 py-1 rounded border border-[rgba(128,0,32,0.2)]">
+            PROJECT 01
+          </span>
+          <span class="px-3 py-1 rounded-md text-xs font-mono font-semibold text-white bg-[#800020]">
+            FLAGSHIP PROJECT
+          </span>
+          <span class="px-3 py-1 rounded-md text-xs font-mono font-semibold text-[#121316] bg-[#faf9f5] border border-[#e6e5df]">
+            {flagshipProject.statusText}
+          </span>
+        </div>
+        <span class="text-xs font-mono text-[#717580]">
+          {flagshipProject.category}
+        </span>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        
+        <div class="lg:col-span-7 space-y-4">
+          <h3 class="text-2xl sm:text-3xl font-extrabold text-[#121316] tracking-tight">
+            <a href={`/projects/${flagshipProject.slug}`} class="hover:text-[#800020] transition-colors">
+              {flagshipProject.title}
+            </a>
+          </h3>
+          <p class="text-sm font-mono text-[#800020] font-semibold">
+            {flagshipProject.subtitle}
+          </p>
+          <p class="text-sm sm:text-base text-[#4a4d55] leading-relaxed">
+            {flagshipProject.shortDesc}
+          </p>
+
+          <div class="space-y-2 pt-2">
+            <span class="text-xs font-mono font-bold text-[#121316] uppercase tracking-wider block">
+              Core Analytical Objectives & Architecture:
+            </span>
+            <ul class="space-y-1.5 text-xs font-mono text-[#4a4d55]">
+              {flagshipProject.summaryPoints.map((point) => (
+                <li class="flex items-start gap-2">
+                  <span class="w-1.5 h-1.5 rounded-full bg-[#800020] shrink-0 mt-1.5"></span>
+                  <span>{point}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        {/* Right Column: Visual Preview Container & CTAs */}
+        <div class="lg:col-span-5 p-6 rounded-lg bg-[#faf9f5] border border-[#e6e5df] space-y-6">
+          <div class="space-y-2">
+            <span class="text-xs font-mono text-[#717580] uppercase tracking-wider block">Analytical Stack</span>
+            <div class="flex flex-wrap gap-2">
+              {flagshipProject.tools.map((t) => (
+                <span class="px-2.5 py-1 rounded text-xs font-mono bg-white text-[#121316] border border-[#e6e5df]">
+                  {t}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          <div class="space-y-2 pt-4 border-t border-[#e6e5df]">
+            <span class="text-xs font-mono text-[#717580] uppercase tracking-wider block">GitHub Repository</span>
+            <a
+              href={flagshipProject.githubUrl}
+              target="_blank"
+              rel="noreferrer"
+              class="text-xs font-mono text-[#800020] hover:underline block font-semibold truncate transition-colors"
+            >
+              {flagshipProject.githubUrl} ↗
+            </a>
+          </div>
+
+          <div class="pt-2 flex flex-col sm:flex-row gap-3">
+            <a
+              href={`/projects/${flagshipProject.slug}`}
+              class="flex-1 inline-flex items-center justify-center gap-2 px-5 py-3 rounded-md bg-[#800020] hover:bg-[#650019] text-white text-xs font-semibold font-mono shadow-sm transition-colors"
+            >
+              <span>View Case Study</span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </a>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    {/* Project 02: Healthlink Solutions Power BI Analytics */}
+    <div class="bg-white border border-[#e6e5df] hover:border-[#800020] rounded-lg p-6 sm:p-10 space-y-8 shadow-sm transition-all duration-200 hover-lift">
+      
+      <div class="flex flex-wrap items-center justify-between gap-3 border-b border-[#e6e5df] pb-6">
+        <div class="flex items-center gap-3">
+          <span class="font-mono text-sm font-bold text-[#800020] bg-[rgba(128,0,32,0.06)] px-2.5 py-1 rounded border border-[rgba(128,0,32,0.2)]">
+            PROJECT 02
+          </span>
+          <span class="px-3 py-1 rounded-md text-xs font-mono font-semibold text-[#800020] bg-[rgba(128,0,32,0.06)] border border-[rgba(128,0,32,0.2)]">
+            POWER BI BUSINESS CASE STUDY
+          </span>
+        </div>
+        <span class="text-xs font-mono text-[#717580]">
+          {healthlinkProject.category}
+        </span>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        
+        <div class="lg:col-span-7 space-y-4">
+          <h3 class="text-2xl sm:text-3xl font-extrabold text-[#121316] tracking-tight">
+            <a href={`/projects/${healthlinkProject.slug}`} class="hover:text-[#800020] transition-colors">
+              {healthlinkProject.title}
+            </a>
+          </h3>
+          <p class="text-sm font-mono text-[#800020] font-semibold">
+            {healthlinkProject.subtitle}
+          </p>
+          <p class="text-sm sm:text-base text-[#4a4d55] leading-relaxed">
+            {healthlinkProject.shortDesc}
+          </p>
+
+          {/* Strong Factual Metrics Display (2-3 Key Metrics visually) */}
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2 text-xs font-mono">
+            <div class="p-3 rounded-md bg-[#faf9f5] border border-[#e6e5df]">
+              <span class="text-[#717580] block text-[11px]">Total Business</span>
+              <span class="font-bold text-[#121316] mt-0.5 block text-sm">₹51.93L (+22.4%)</span>
+            </div>
+            <div class="p-3 rounded-md bg-[#faf9f5] border border-[#e6e5df]">
+              <span class="text-[#717580] block text-[11px]">Doctor Outreach</span>
+              <span class="font-bold text-[#121316] mt-0.5 block text-sm">2,290 Doctors</span>
+            </div>
+            <div class="p-3 rounded-md bg-[#faf9f5] border border-[#e6e5df]">
+              <span class="text-[#717580] block text-[11px]">Completed Calls</span>
+              <span class="font-bold text-[#800020] mt-0.5 block text-sm">9,519 Actual Calls</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Right Side: Tools & Actions */}
+        <div class="lg:col-span-5 p-6 rounded-lg bg-[#faf9f5] border border-[#e6e5df] space-y-6">
+          <div class="space-y-2">
+            <span class="text-xs font-mono text-[#717580] uppercase tracking-wider block">Analytical Stack</span>
+            <div class="flex flex-wrap gap-2">
+              {healthlinkProject.tools.map((t) => (
+                <span class="px-2.5 py-1 rounded text-xs font-mono bg-white text-[#121316] border border-[#e6e5df]">
+                  {t}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          <div class="space-y-2 pt-4 border-t border-[#e6e5df]">
+            <span class="text-xs font-mono text-[#717580] uppercase tracking-wider block">GitHub Repository</span>
+            <a
+              href={healthlinkProject.githubUrl}
+              target="_blank"
+              rel="noreferrer"
+              class="text-xs font-mono text-[#800020] hover:underline block font-semibold truncate transition-colors"
+            >
+              {healthlinkProject.githubUrl} ↗
+            </a>
+          </div>
+
+          <div class="pt-2">
+            <a
+              href={`/projects/${healthlinkProject.slug}`}
+              class="w-full inline-flex items-center justify-center gap-2 px-5 py-3 rounded-md bg-[#800020] hover:bg-[#650019] text-white text-xs font-semibold font-mono shadow-sm transition-colors"
+            >
+              <span>View Case Study</span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </a>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+</section>

@@ -1,0 +1,127 @@
+---
+import { resumeData } from '../data/resumeData';
+
+const expList = resumeData.experiences;
+---
+
+<section id="experience" class="py-16 sm:py-24 border-b border-white/10 text-left">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+    
+    {/* Section Header */}
+    <div class="space-y-3 max-w-3xl scroll-reveal">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-md text-xs font-mono font-bold text-yellow-400 bg-yellow-500/10 border border-yellow-500/30">
+        <span class="w-1.5 h-1.5 rounded-full bg-yellow-400 animate-pulse"></span>
+        <span>WORK EXPERIENCE</span>
+      </div>
+      <h2 class="text-2xl sm:text-4xl font-extrabold text-white tracking-tight">
+        Professional Experience & <span class="text-yellow-400">Analytical Roles</span>.
+      </h2>
+      <p class="text-base text-slate-400 max-w-2xl font-normal leading-relaxed">
+        Reverse-chronological professional experience in business data analytics, database systems, and marketing operations.
+      </p>
+    </div>
+
+    {/* Factual Editorial Experience Timeline Layout */}
+    <div class="space-y-8 relative">
+      
+      {/* Subtle Vertical Timeline Illumination Line */}
+      <div class="hidden lg:block absolute left-8 top-10 bottom-10 w-[1px] bg-white/10 pointer-events-none"></div>
+
+      {expList.map((exp, idx) => (
+        <div 
+          class={`hover-card-product bg-[#0f1118]/90 backdrop-blur-md border rounded-xl p-6 sm:p-8 space-y-6 shadow-xl transition-all duration-300 ${idx % 2 === 0 ? 'scroll-reveal-left' : 'scroll-reveal-right'} ${exp.isCurrent ? 'border-2 border-yellow-500 shadow-[0_0_20px_rgba(234,179,8,0.15)]' : 'border-white/10'}`}
+          data-delay={idx * 150}
+        >
+          
+          {/* Card Header Bar */}
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/10 pb-4">
+            <div class="space-y-1">
+              <div class="flex items-center gap-3">
+                <span class="font-mono text-xs font-bold text-yellow-400 bg-yellow-500/10 px-2.5 py-0.5 rounded border border-yellow-500/30 flex items-center gap-1.5">
+                  <span class={`w-1.5 h-1.5 rounded-full ${exp.isCurrent ? 'bg-yellow-400 animate-pulse' : 'bg-slate-400'}`}></span>
+                  <span>ROLE 0{idx + 1}</span>
+                </span>
+
+                {exp.isCurrent && (
+                  <span class="px-2.5 py-0.5 rounded text-xs font-mono font-semibold text-black bg-yellow-400 shadow-[0_0_10px_rgba(234,179,8,0.4)]">
+                    CURRENT ROLE
+                  </span>
+                )}
+              </div>
+
+              <h3 class="text-xl sm:text-2xl font-extrabold text-white pt-1">
+                {exp.role}
+              </h3>
+              <div class="text-xs font-mono text-slate-400">
+                <strong class="text-slate-200">{exp.company}</strong> • {exp.location}
+              </div>
+            </div>
+            
+            <div class="text-xs font-mono text-yellow-400 bg-[#161924] px-3 py-1.5 rounded border border-yellow-500/30 font-semibold inline-flex items-center gap-1.5 self-start sm:self-auto">
+              {exp.isCurrent && <span class="w-2 h-2 rounded-full bg-yellow-400 animate-pulse"></span>}
+              <span>{exp.period}</span>
+            </div>
+          </div>
+
+          {/* Analytical Workflow Marker (Role 01) */}
+          {exp.workflow && (
+            <div class="p-3.5 rounded-lg bg-[#090a0d] border border-yellow-500/30 space-y-2">
+              <span class="text-[11px] font-mono font-bold text-yellow-400 uppercase tracking-wider block">
+                Analytical Workflow Execution:
+              </span>
+              <div class="flex flex-wrap items-center gap-2 text-xs font-mono text-slate-200">
+                {exp.workflow.map((step, stepIdx) => (
+                  <span class="inline-flex items-center gap-2">
+                    <span class="px-2 py-0.5 rounded bg-[#161924] text-yellow-300 border border-yellow-500/30 font-bold">
+                      {step}
+                    </span>
+                    {stepIdx < exp.workflow.length - 1 && (
+                      <span class="text-slate-500 font-bold">→</span>
+                    )}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Role Summary & Factual Highlights */}
+          <div class="space-y-4 text-sm text-slate-300 leading-relaxed font-normal">
+            <p>{exp.summary}</p>
+
+            <div class="space-y-2 pt-2">
+              <span class="text-xs font-mono font-bold text-white uppercase tracking-wider block">
+                Key Responsibilities & Deliverables:
+              </span>
+              <ul class="space-y-2 text-xs font-mono text-slate-300">
+                {exp.highlights.map((item) => (
+                  <li class="flex items-start gap-2.5">
+                    <span class="w-1.5 h-1.5 rounded-full bg-yellow-400 shrink-0 mt-1.5"></span>
+                    <span class="leading-relaxed">{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Exact Role Skill Tags */}
+            {exp.skills && exp.skills.length > 0 && (
+              <div class="pt-4 border-t border-white/10 space-y-2">
+                <span class="text-[11px] font-mono text-slate-400 uppercase tracking-wider block">
+                  Role Capabilities & Toolstack:
+                </span>
+                <div class="flex flex-wrap gap-1.5">
+                  {exp.skills.map((skill) => (
+                    <span class="px-2.5 py-1 rounded text-xs font-mono bg-[#161924] text-yellow-300 border border-yellow-500/20">
+                      {skill}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+
+        </div>
+      ))}
+    </div>
+
+  </div>
+</section>

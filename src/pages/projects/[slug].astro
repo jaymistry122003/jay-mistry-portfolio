@@ -1,0 +1,41 @@
+---
+import { getCollection, render } from 'astro:content';
+import CaseStudyLayout from '../../layouts/CaseStudyLayout.astro';
+import { projectsData } from '../../data/projectsData';
+
+export async function getStaticPaths() {
+  const projects = await getCollection('projects');
+
+  // Exact 5 revised project slugs in sequence
+  const orderedSlugs = [
+    'ai-data-analyst-agent',
+    'healthlink-solutions',
+    'us-school-bullying-analytics',
+    'vendor-performance-analysis',
+    'customer-shopping-behavior-analysis'
+  ];
+
+  return projects.map((entry) => {
+    const slug = entry.id.replace(/\.md$/, '');
+    const index = orderedSlugs.indexOf(slug);
+    
+    const prevSlug = index > 0 ? orderedSlugs[index - 1] : null;
+    const nextSlug = index < orderedSlugs.length - 1 ? orderedSlugs[index + 1] : null;
+
+    const prevProject = prevSlug ? projectsData.find(p => p.slug === prevSlug) || null : null;
+    const nextProject = nextSlug ? projectsData.find(p => p.slug === nextSlug) || null : null;
+
+    return {
+      params: { slug },
+      props: { entry, prevProject, nextProject }
+    };
+  });
+}
+
+const { entry, prevProject, nextProject } = Astro.props;
+const { Content } = await render(entry);
+---
+
+<CaseStudyLayout frontmatter={entry.data} prevProject={prevProject} nextProject={nextProject}>
+  <Content />
+</CaseStudyLayout>

@@ -1,0 +1,113 @@
+---
+const skillGroups = [
+  {
+    category: "Data Analysis",
+    description: "Statistical data processing & exploratory analysis",
+    technologies: ["Python", "Pandas", "NumPy", "Exploratory Data Analysis (EDA)", "Statistical Summary"]
+  },
+  {
+    category: "SQL & Databases",
+    description: "Database querying, schema modeling & transformations",
+    technologies: ["SQL", "PostgreSQL", "MySQL", "Relational Database Modeling", "Multi-Table Joins", "Aggregations"]
+  },
+  {
+    category: "BI & Visualization",
+    description: "Interactive dashboard development & reporting",
+    technologies: ["Power BI", "DAX Measures", "Excel", "Executive Scorecards", "Q1 vs Q2 Variance Analysis"]
+  },
+  {
+    category: "Business Analysis",
+    description: "Requirements gathering, KPI definition & performance analysis",
+    technologies: [
+      "Business Requirements Analysis",
+      "Requirements Gathering",
+      "KPI & Metric Definition",
+      "Business Performance Analysis",
+      "Trend & Variance Analysis",
+      "Root Cause Analysis",
+      "Data-Driven Decision Making",
+      "Process Improvement",
+      "Recommendation Development"
+    ]
+  },
+  {
+    category: "Communication & Stakeholder Management",
+    description: "Data storytelling, insight presentation & stakeholder collaboration",
+    technologies: [
+      "Stakeholder Communication",
+      "Data Storytelling",
+      "Insight Presentation",
+      "Business-to-Technical Communication",
+      "Analytical Reporting",
+      "Cross-Functional Collaboration",
+      "Executive Communication"
+    ]
+  },
+  {
+    category: "Data Engineering",
+    description: "Data preparation, cleaning & pipeline workflows",
+    technologies: ["ETL Workflows", "Data Warehousing", "Data Cleaning", "Data Transformation", "Missing Value Imputation"]
+  },
+  {
+    category: "AI / Analytics",
+    description: "Autonomous analytical systems & LLM integration",
+    technologies: ["AI Data Analyst Agent", "LLM Prompt Engineering", "Natural Language to SQL", "Automated Insight Generation"]
+  }
+];
+---
+
+<section id="skills" class="py-16 sm:py-24 border-b border-white/10 text-left">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+    
+    {/* Section Header */}
+    <div class="space-y-3 max-w-3xl scroll-reveal">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-md text-xs font-mono font-bold text-yellow-400 bg-yellow-500/10 border border-yellow-500/30">
+        <span class="w-1.5 h-1.5 rounded-full bg-yellow-400 animate-pulse"></span>
+        <span>SKILLS & TOOLKIT</span>
+      </div>
+      <h2 class="text-2xl sm:text-4xl font-extrabold text-white tracking-tight">
+        Technical Capabilities & <span class="text-yellow-400">Toolstack</span>.
+      </h2>
+      <p class="text-base text-slate-400 max-w-2xl font-normal leading-relaxed">
+        Organized across 7 functional analytical domains. Clean, factual capabilities supported by actual professional experience and project work.
+      </p>
+    </div>
+
+    {/* Grouped Skills Cards Grid with Category-Level Stagger */}
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {skillGroups.map((group, idx) => (
+        <div 
+          class="bg-[#0f1118]/80 backdrop-blur-md border border-white/10 hover:border-yellow-500/40 rounded-xl p-6 space-y-4 shadow-lg transition-all duration-200 hover-lift flex flex-col justify-between scroll-reveal-scale"
+          data-delay={idx * 75}
+        >
+          
+          <div class="space-y-2">
+            <div class="flex items-center justify-between border-b border-white/10 pb-3">
+              <h3 class="text-base font-bold text-white">
+                {group.category}
+              </h3>
+              <span class="font-mono text-xs text-yellow-400 bg-yellow-500/10 px-2 py-0.5 rounded border border-yellow-500/30">
+                0{idx + 1}
+              </span>
+            </div>
+            
+            <p class="text-xs text-slate-400 font-sans">
+              {group.description}
+            </p>
+
+            {/* Tech Pill List */}
+            <div class="flex flex-wrap gap-2 pt-2">
+              {group.technologies.map((tech) => (
+                <span class="px-2.5 py-1 rounded text-xs font-mono bg-[#161924] text-yellow-300 border border-yellow-500/20 hover:border-yellow-400 hover:text-white transition-colors">
+                  {tech}
+                </span>
+              ))}
+            </div>
+          </div>
+
+        </div>
+      ))}
+    </div>
+
+  </div>
+</section>

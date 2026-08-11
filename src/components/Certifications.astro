@@ -1,0 +1,79 @@
+---
+import { resumeData } from '../data/resumeData';
+
+const certsList = resumeData.certifications;
+---
+
+<section id="certifications" class="py-16 sm:py-24 border-b border-white/10 text-left">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+    
+    {/* Section Header */}
+    <div class="space-y-3 max-w-3xl scroll-reveal">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-md text-xs font-mono font-bold text-yellow-400 bg-yellow-500/10 border border-yellow-500/30">
+        <span class="w-1.5 h-1.5 rounded-full bg-yellow-400 animate-pulse"></span>
+        <span>CERTIFICATIONS & PROFESSIONAL SIMULATIONS</span>
+      </div>
+      <h2 class="text-2xl sm:text-4xl font-extrabold text-white tracking-tight">
+        Certifications & <span class="text-yellow-400">Professional Simulations</span>.
+      </h2>
+      <p class="text-base text-slate-400 max-w-2xl font-normal leading-relaxed">
+        Verified industry credentials, skill certifications, and practical job simulations evaluating quantitative research, data analytics, SQL, and generative AI.
+      </p>
+    </div>
+
+    {/* Scannable Credentials List with Staggered Motion */}
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      {certsList.map((cert, idx) => (
+        <div 
+          class="bg-[#0f1118]/80 backdrop-blur-md border border-white/10 hover:border-yellow-500/40 rounded-xl p-6 space-y-4 shadow-lg transition-all duration-200 hover-lift flex flex-col justify-between scroll-reveal-scale"
+          data-delay={idx * 75}
+        >
+          
+          <div class="space-y-3">
+            {/* Top Bar: Issuer & Category Badge */}
+            <div class="flex items-center justify-between border-b border-white/10 pb-3">
+              <div class="flex items-center gap-2">
+                <span class="font-mono text-xs font-bold text-white">
+                  {cert.issuer}
+                </span>
+                <span class="px-2 py-0.5 rounded text-[11px] font-mono text-slate-400 bg-[#161924] border border-white/10">
+                  {cert.category}
+                </span>
+              </div>
+
+              <span class="font-mono text-xs text-yellow-400 bg-yellow-500/10 px-2.5 py-0.5 rounded border border-yellow-500/30 inline-flex items-center gap-1.5 font-semibold">
+                {cert.status === 'In Progress' && <span class="w-2 h-2 rounded-full bg-yellow-400 animate-pulse"></span>}
+                <span>{cert.dateOrYear}</span>
+              </span>
+            </div>
+
+            {/* Title & Status */}
+            <div class="space-y-1">
+              <h3 class="text-lg font-bold text-white leading-snug">
+                {cert.name}
+              </h3>
+              {cert.status && (
+                <p class="text-xs font-mono text-slate-400">
+                  Status: <span class="text-yellow-400 font-semibold">{cert.status}</span>
+                </p>
+              )}
+            </div>
+
+            {/* Sub-level Details Pill List (e.g. HackerRank SQL Basic, Inter, Adv) */}
+            {cert.details && cert.details.length > 0 && (
+              <div class="flex flex-wrap gap-1.5 pt-2">
+                {cert.details.map((item) => (
+                  <span class="px-2.5 py-1 rounded text-xs font-mono bg-[#161924] text-yellow-300 border border-yellow-500/20">
+                    ✓ {item}
+                  </span>
+                ))}
+              </div>
+            )}
+          </div>
+
+        </div>
+      ))}
+    </div>
+
+  </div>
+</section>

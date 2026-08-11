@@ -1,0 +1,44 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import About from '../components/About.astro';
+import Skills from '../components/Skills.astro';
+import Projects from '../components/Projects.astro';
+import Experience from '../components/Experience.astro';
+import Education from '../components/Education.astro';
+import Certifications from '../components/Certifications.astro';
+import Communication from '../components/Communication.astro';
+import ContactForm from '../components/ContactForm.astro';
+import { siteConfig } from '../data/siteConfig';
+---
+
+<BaseLayout title={siteConfig.title} description={siteConfig.description}>
+  
+  {/* Hero Section */}
+  <Hero />
+
+  {/* About Section */}
+  <About />
+
+  {/* Skills & Technical Toolkit Section */}
+  <Skills />
+
+  {/* All 5 Substantial Portfolio Projects */}
+  <Projects />
+
+  {/* Work Experience Timeline */}
+  <Experience />
+
+  {/* Academic Education */}
+  <Education />
+
+  {/* Verified Certifications */}
+  <Certifications />
+
+  {/* Languages & Communication Section (PTE Academic 83/90) */}
+  <Communication />
+
+  {/* Accessible Working Contact Form Section */}
+  <ContactForm />
+
+</BaseLayout>
