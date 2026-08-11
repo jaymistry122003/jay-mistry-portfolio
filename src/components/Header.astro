@@ -23,13 +23,13 @@ const currentPath = Astro.url.pathname;
     </a>
 
     {/* Desktop Navigation Links */}
-    <nav class="hidden md:flex items-center gap-8" aria-label="Main Navigation">
+    <nav class="hidden md:flex items-center gap-5 lg:gap-7 mx-auto px-6 lg:px-10" aria-label="Main Navigation">
       {siteConfig.navLinks.map((link) => {
         const isActive = currentPath === link.href || (link.href !== '/' && currentPath.startsWith(link.href));
         return (
           <a
             href={link.href}
-            class={`text-sm font-medium transition-colors link-editorial ${isActive ? 'nav-link-active' : 'text-slate-300 hover:text-yellow-400'}`}
+            class={`text-xs lg:text-sm font-medium transition-colors link-editorial ${isActive ? 'nav-link-active' : 'text-slate-300 hover:text-yellow-400'}`}
           >
             {link.label}
           </a>
