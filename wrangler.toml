@@ -1,1 +1,5 @@
+name = "jay-mistry-portfolio"
 compatibility_date = "2026-08-11"
+
+[assets]
+directory = "./dist"
