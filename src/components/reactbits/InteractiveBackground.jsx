@@ -168,7 +168,7 @@ export default function InteractiveBackground({
     <canvas
       ref={canvasRef}
       style={{ willChange: 'transform' }}
-      className={`fixed inset-0 pointer-events-none -z-10 opacity-75 ${className}`}
+      className={`fixed inset-0 pointer-events-none z-[1] opacity-80 ${className}`}
     />
   );
 }
