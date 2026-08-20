@@ -1,5 +1,7 @@
 ---
 import { resumeData } from '../data/resumeData';
+import GlitchText from './reactbits/GlitchText';
+import AnimatedList from './reactbits/AnimatedList';
 
 const expList = resumeData.experiences;
 ---
@@ -44,7 +46,7 @@ const expList = resumeData.experiences;
 
                 {exp.isCurrent && (
                   <span class="px-2.5 py-0.5 rounded text-xs font-mono font-semibold text-black bg-yellow-400 shadow-[0_0_10px_rgba(234,179,8,0.4)]">
-                    CURRENT ROLE
+                    <GlitchText client:visible text="CURRENT ROLE" />
                   </span>
                 )}
               </div>
@@ -92,14 +94,14 @@ const expList = resumeData.experiences;
               <span class="text-xs font-mono font-bold text-white uppercase tracking-wider block">
                 Key Responsibilities & Deliverables:
               </span>
-              <ul class="space-y-2 text-xs font-mono text-slate-300">
+              <AnimatedList client:visible delay={0.08} className="space-y-2 text-xs font-mono text-slate-300">
                 {exp.highlights.map((item) => (
-                  <li class="flex items-start gap-2.5">
+                  <div class="flex items-start gap-2.5">
                     <span class="w-1.5 h-1.5 rounded-full bg-yellow-400 shrink-0 mt-1.5"></span>
                     <span class="leading-relaxed">{item}</span>
-                  </li>
+                  </div>
                 ))}
-              </ul>
+              </AnimatedList>
             </div>
 
             {/* Exact Role Skill Tags */}

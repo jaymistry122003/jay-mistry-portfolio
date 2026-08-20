@@ -1,4 +1,7 @@
 ---
+import ShinyText from './reactbits/ShinyText';
+import DecryptText from './reactbits/DecryptText';
+
 const whatIWorkAcross = [
   {
     domain: "DATA ANALYTICS",
@@ -34,10 +37,10 @@ const whatIWorkAcross = [
     <div class="space-y-3 max-w-3xl scroll-reveal">
       <div class="inline-flex items-center gap-2 px-3 py-1 rounded-md text-xs font-mono font-bold text-yellow-400 bg-yellow-500/10 border border-yellow-500/30">
         <span class="w-1.5 h-1.5 rounded-full bg-yellow-400 animate-pulse"></span>
-        <span>[SYS_PROFILE] • ABOUT & ANALYTICAL BACKGROUND</span>
+        <span><DecryptText client:visible text="[SYS_PROFILE]" /> • ABOUT & ANALYTICAL BACKGROUND</span>
       </div>
       <h2 class="text-2xl sm:text-4xl font-extrabold text-white tracking-tight">
-        Bridging Data, Technology & <span class="text-yellow-400">Business Decisions</span>.
+        Bridging Data, Technology & <ShinyText client:visible text="Business Decisions" />.
       </h2>
       <p class="text-base text-slate-400 max-w-2xl font-normal leading-relaxed">
         Combining computer science technical fundamentals with business analytics, Power BI reporting, and data-driven decision-making.
@@ -55,7 +58,7 @@ const whatIWorkAcross = [
             PROFILE SUMMARY
           </span>
           <span class="text-[10px] font-mono text-slate-500">
-            [SYS_VERIFIED]
+            <DecryptText client:visible text="[SYS_VERIFIED]" />
           </span>
         </div>
 

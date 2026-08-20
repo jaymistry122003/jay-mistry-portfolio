@@ -1,5 +1,7 @@
 ---
 import { resumeData } from '../data/resumeData';
+import ShinyText from './reactbits/ShinyText';
+import SpotlightCard from './reactbits/SpotlightCard';
 
 const certsList = resumeData.certifications;
 ---
@@ -24,40 +26,41 @@ const certsList = resumeData.certifications;
     {/* Scannable Credentials List with Staggered Motion */}
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
       {certsList.map((cert, idx) => (
-        <div 
-          class="bg-[#0f1118]/80 backdrop-blur-md border border-white/10 hover:border-yellow-500/40 rounded-xl p-6 space-y-4 shadow-lg transition-all duration-200 hover-lift flex flex-col justify-between scroll-reveal-scale"
-          data-delay={idx * 75}
-        >
-          
-          <div class="space-y-3">
-            {/* Top Bar: Issuer & Category Badge */}
-            <div class="flex items-center justify-between border-b border-white/10 pb-3">
-              <div class="flex items-center gap-2">
-                <span class="font-mono text-xs font-bold text-white">
-                  {cert.issuer}
-                </span>
-                <span class="px-2 py-0.5 rounded text-[11px] font-mono text-slate-400 bg-[#161924] border border-white/10">
-                  {cert.category}
+        <SpotlightCard client:visible className="rounded-xl" spotlightColor="rgba(234, 179, 8, 0.16)">
+          <div 
+            class="bg-[#0f1118]/80 backdrop-blur-md border border-white/10 hover:border-yellow-500/40 rounded-xl p-6 space-y-4 shadow-lg transition-all duration-200 hover-lift flex flex-col justify-between scroll-reveal-scale h-full"
+            data-delay={idx * 75}
+          >
+            
+            <div class="space-y-3">
+              {/* Top Bar: Issuer & Category Badge */}
+              <div class="flex items-center justify-between border-b border-white/10 pb-3">
+                <div class="flex items-center gap-2">
+                  <span class="font-mono text-xs font-bold text-white">
+                    {cert.issuer}
+                  </span>
+                  <span class="px-2 py-0.5 rounded text-[11px] font-mono text-slate-400 bg-[#161924] border border-white/10">
+                    {cert.category}
+                  </span>
+                </div>
+
+                <span class="font-mono text-xs text-yellow-400 bg-yellow-500/10 px-2.5 py-0.5 rounded border border-yellow-500/30 inline-flex items-center gap-1.5 font-semibold">
+                  {cert.status === 'In Progress' && <span class="w-2 h-2 rounded-full bg-yellow-400 animate-pulse"></span>}
+                  <span>{cert.dateOrYear}</span>
                 </span>
               </div>
 
-              <span class="font-mono text-xs text-yellow-400 bg-yellow-500/10 px-2.5 py-0.5 rounded border border-yellow-500/30 inline-flex items-center gap-1.5 font-semibold">
-                {cert.status === 'In Progress' && <span class="w-2 h-2 rounded-full bg-yellow-400 animate-pulse"></span>}
-                <span>{cert.dateOrYear}</span>
-              </span>
-            </div>
-
-            {/* Title & Status */}
-            <div class="space-y-1">
-              <h3 class="text-lg font-bold text-white leading-snug">
-                {cert.name}
-              </h3>
-              {cert.status && (
-                <p class="text-xs font-mono text-slate-400">
-                  Status: <span class="text-yellow-400 font-semibold">{cert.status}</span>
-                </p>
-              )}
-            </div>
+              {/* Title & Status */}
+              <div class="space-y-1">
+                <h3 class="text-lg font-bold text-white leading-snug">
+                  <ShinyText client:visible text={cert.name} />
+                </h3>
+                {cert.status && (
+                  <p class="text-xs font-mono text-slate-400">
+                    Status: <span class="text-yellow-400 font-semibold">{cert.status}</span>
+                  </p>
+                )}
+              </div>
 
             {/* Sub-level Details Pill List (e.g. HackerRank SQL Basic, Inter, Adv) */}
             {cert.details && cert.details.length > 0 && (
@@ -72,6 +75,7 @@ const certsList = resumeData.certifications;
           </div>
 
         </div>
+      </SpotlightCard>
       ))}
     </div>
 

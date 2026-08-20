@@ -1,5 +1,6 @@
 ---
 import { siteConfig } from '../data/siteConfig';
+import Magnet from './reactbits/Magnet';
 
 const currentPath = Astro.url.pathname;
 ---
@@ -9,9 +10,11 @@ const currentPath = Astro.url.pathname;
     
     {/* Brand Logo & Monogram */}
     <a id="brand-logo-link" href="/" class="flex items-center gap-3 group text-left">
-      <div class="w-9 h-9 rounded-md bg-yellow-400 text-black font-mono font-extrabold text-sm flex items-center justify-center shadow-[0_0_15px_rgba(234,179,8,0.3)] group-hover:scale-105 transition-all">
-        JM
-      </div>
+      <Magnet client:load magnetStrength={4}>
+        <div class="w-9 h-9 rounded-md bg-yellow-400 text-black font-mono font-extrabold text-sm flex items-center justify-center shadow-[0_0_15px_rgba(234,179,8,0.3)] group-hover:scale-105 transition-all">
+          JM
+        </div>
+      </Magnet>
       <div class="flex flex-col">
         <span class="font-bold text-base tracking-tight text-white group-hover:text-yellow-400 transition-colors">
           {siteConfig.name}

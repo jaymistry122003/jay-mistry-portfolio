@@ -103,13 +103,6 @@ export const resumeData = {
 
   certifications: [
     {
-      name: "Quantitative Research Job Simulation",
-      issuer: "JPMorgan Chase",
-      category: "Job Simulation",
-      dateOrYear: "2026",
-      status: "Completed"
-    },
-    {
       name: "GenAI Powered Data Analytics",
       issuer: "Tata",
       category: "Job Simulation",

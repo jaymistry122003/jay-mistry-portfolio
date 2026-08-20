@@ -1,4 +1,13 @@
 ---
+import InfiniteScroll from './reactbits/InfiniteScroll';
+
+const marqueeTechs = [
+  "SQL", "Power BI", "Python", "DAX", "PostgreSQL", "MySQL",
+  "Pandas", "NumPy", "Scikit-learn", "Exploratory Data Analysis",
+  "Power Query", "Excel & Pivot Tables", "ETL Pipelines",
+  "AI Analytics Agents", "Data Storytelling", "Statistical Analysis"
+];
+
 const skillGroups = [
   {
     category: "PROGRAMMING & DATABASES",
@@ -139,6 +148,11 @@ const skillGroups = [
       <p class="text-base text-slate-400 max-w-2xl font-normal leading-relaxed">
         Organized across functional analytical domains. Clean, factual capabilities supported by actual professional experience and project work.
       </p>
+    </div>
+
+    {/* ReactBits InfiniteScroll Marquee Banner */}
+    <div class="py-2 border-y border-white/10 scroll-reveal">
+      <InfiniteScroll client:visible items={marqueeTechs} speed={30} direction="left" />
     </div>
 
     {/* Grouped Skills Cards Grid with Category-Level Stagger */}

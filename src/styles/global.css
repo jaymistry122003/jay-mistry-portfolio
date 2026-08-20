@@ -113,6 +113,9 @@ body {
 
 /* Product Card Interactive Hover State */
 .hover-card-product {
+  will-change: transform, box-shadow, border-color;
+  backface-visibility: hidden;
+  transform: translateZ(0);
   transition: background-color 0.3s cubic-bezier(0.16, 1, 0.3, 1),
               border-color 0.3s cubic-bezier(0.16, 1, 0.3, 1),
               box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1),
@@ -123,17 +126,19 @@ body {
   background-color: rgba(22, 25, 36, 0.9);
   border-color: rgba(234, 179, 8, 0.45);
   box-shadow: 0 8px 30px -4px rgba(0, 0, 0, 0.7), 0 0 20px -2px rgba(234, 179, 8, 0.15);
-  transform: translateY(-4px);
+  transform: translateY(-4px) translateZ(0);
 }
 
 /* Image Subtle Reveal Utility */
 .hover-image-reveal {
+  will-change: transform, opacity;
+  backface-visibility: hidden;
   transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease;
 }
 
 .hover-card-product:hover .hover-image-reveal,
 .group:hover .hover-image-reveal {
-  transform: scale(1.02);
+  transform: scale(1.02) translateZ(0);
   opacity: 1;
 }
 
@@ -145,34 +150,38 @@ body {
 */
 .scroll-reveal {
   opacity: 0;
-  transform: translateY(30px);
+  transform: translateY(30px) translateZ(0);
   transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
               transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
   will-change: opacity, transform;
+  backface-visibility: hidden;
 }
 
 .scroll-reveal-left {
   opacity: 0;
-  transform: translateX(-25px);
+  transform: translateX(-25px) translateZ(0);
   transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
               transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
   will-change: opacity, transform;
+  backface-visibility: hidden;
 }
 
 .scroll-reveal-right {
   opacity: 0;
-  transform: translateX(25px);
+  transform: translateX(25px) translateZ(0);
   transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
               transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
   will-change: opacity, transform;
+  backface-visibility: hidden;
 }
 
 .scroll-reveal-scale {
   opacity: 0;
-  transform: translateY(30px) scale(0.95);
+  transform: translateY(30px) scale(0.95) translateZ(0);
   transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
               transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
   will-change: opacity, transform;
+  backface-visibility: hidden;
 }
 
 /* High-specificity revealed active state */
@@ -181,7 +190,7 @@ body {
 .scroll-reveal-right.is-visible,
 .scroll-reveal-scale.is-visible {
   opacity: 1 !important;
-  transform: translateY(0) translateX(0) scale(1) !important;
+  transform: translateY(0) translateX(0) scale(1) translateZ(0) !important;
 }
 
 /* Navbar entrance animation */
@@ -303,5 +312,21 @@ a.group:active,
   *, ::before, ::after {
     scroll-behavior: auto !important;
   }
+}
+
+/* 
+  ==================================================
+  GLOBAL ELECTRIC GOLD/YELLOW GRADIENT TEXT SYSTEM
+  Applies rich gold-to-amber text gradient to all yellow text
+  ==================================================
+*/
+.text-yellow-200,
+.text-yellow-300,
+.text-yellow-400,
+.text-yellow-500 {
+  background: linear-gradient(135deg, #fff085 0%, #facc15 40%, #eab308 75%, #ca8a04 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 

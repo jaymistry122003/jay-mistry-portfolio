@@ -1,5 +1,21 @@
 ---
 import { projectsData } from '../data/projectsData';
+import SpotlightCard from './reactbits/SpotlightCard';
+import TiltedCard from './reactbits/TiltedCard';
+import StarBorder from './reactbits/StarBorder';
+import CountUp from './reactbits/CountUp';
+
+// Helper function to extract number from metric string if applicable
+function parseMetricValue(valStr) {
+  const match = valStr.match(/^([^\d]*)([\d,.]+)(.*)$/);
+  if (match) {
+    const rawNum = parseFloat(match[2].replace(/,/g, ''));
+    if (!isNaN(rawNum)) {
+      return { prefix: match[1], num: rawNum, suffix: match[3] };
+    }
+  }
+  return null;
+}
 ---
 
 <section id="projects" class="py-16 sm:py-24 border-b border-white/10 text-left">
@@ -22,150 +38,252 @@ import { projectsData } from '../data/projectsData';
     {/* All 5 Substantial Project Cards with Staggered Motion */}
     <div class="space-y-10">
       {projectsData.map((project, idx) => (
-        <div 
-          class={`hover-card-product group bg-[#0f1118]/90 backdrop-blur-md border rounded-xl p-6 sm:p-10 space-y-8 shadow-xl transition-all duration-300 scroll-reveal-scale ${project.isFlagship ? 'border-2 border-yellow-500 shadow-[0_0_30px_rgba(234,179,8,0.15)]' : 'border-white/10'}`}
-          data-delay={idx * 100}
-        >
-          
-          {/* Card Header Bar */}
-          <div class="flex flex-wrap items-center justify-between gap-3 border-b border-white/10 pb-6">
-            <div class="flex items-center gap-3">
-              <span class="font-mono text-sm font-bold text-yellow-400 bg-yellow-500/10 px-2.5 py-1 rounded border border-yellow-500/30">
-                PROJECT 0{idx + 1}
-              </span>
+        <SpotlightCard client:visible className="rounded-xl" spotlightColor="rgba(234, 179, 8, 0.16)">
+          {project.isFlagship ? (
+            <TiltedCard
+              client:visible
+              className={`hover-card-product group bg-[#0f1118]/90 backdrop-blur-md border rounded-xl p-6 sm:p-10 space-y-8 shadow-xl transition-all duration-300 scroll-reveal-scale border-2 border-yellow-500 shadow-[0_0_30px_rgba(234,179,8,0.15)]`}
+              data-delay={idx * 100}
+            >
+              {/* Card Header Bar */}
+              <div class="flex flex-wrap items-center justify-between gap-3 border-b border-white/10 pb-6">
+                <div class="flex items-center gap-3">
+                  <span class="font-mono text-sm font-bold text-yellow-400 bg-yellow-500/10 px-2.5 py-1 rounded border border-yellow-500/30">
+                    PROJECT 0{idx + 1}
+                  </span>
 
-              {project.isFlagship && (
-                <span class="px-3 py-1 rounded-md text-xs font-mono font-semibold text-black bg-yellow-400 shadow-[0_0_10px_rgba(234,179,8,0.4)]">
-                  FLAGSHIP PROJECT
-                </span>
-              )}
-
-              <span class="px-3 py-1 rounded-md text-xs font-mono font-semibold text-slate-300 bg-[#161924] border border-white/10 inline-flex items-center gap-1.5">
-                {project.inDevelopment && <span class="w-2 h-2 rounded-full bg-yellow-400 animate-pulse"></span>}
-                <span>{project.statusText}</span>
-              </span>
-            </div>
-
-            <span class="text-xs font-mono text-slate-400">
-              {project.category}
-            </span>
-          </div>
-
-          <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-            
-            {/* Left Main Information Column */}
-            <div class="lg:col-span-7 space-y-4">
-              <div class="space-y-1">
-                <h3 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
-                  <a href={`/projects/${project.slug}`} class="hover:text-yellow-400 transition-colors">
-                    {project.title}
-                  </a>
-                </h3>
-                <p class="text-sm font-mono text-yellow-400 font-semibold">
-                  {project.subtitle}
-                </p>
-              </div>
-
-              <p class="text-sm sm:text-base text-slate-300 leading-relaxed">
-                {project.shortDesc}
-              </p>
-
-              {/* Analytical Deliverables Bullets */}
-              <div class="space-y-2 pt-2">
-                <span class="text-xs font-mono font-bold text-white uppercase tracking-wider block">
-                  Key Analytical Highlights & Deliverables:
-                </span>
-                <ul class="space-y-1.5 text-xs font-mono text-slate-300">
-                  {project.summaryPoints.map((point) => (
-                    <li class="flex items-start gap-2">
-                      <span class="w-1.5 h-1.5 rounded-full bg-yellow-400 shrink-0 mt-1.5"></span>
-                      <span>{point}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-
-            {/* Right Specification Column */}
-            <div class="lg:col-span-5 p-6 rounded-xl bg-[#090a0d] border border-white/10 space-y-6">
-              
-              {/* Core Metrics Grid */}
-              <div class="space-y-2">
-                <span class="text-xs font-mono text-slate-400 uppercase tracking-wider block">Core Benchmark Metrics</span>
-                <div class="grid grid-cols-1 gap-2 text-xs font-mono">
-                  {project.keyMetrics.map((m) => (
-                    <div class="flex items-center justify-between p-2 rounded bg-[#0f1118] border border-white/10 hover:border-yellow-500/40 transition-colors">
-                      <span class="text-slate-400">{m.label}:</span>
-                      <span class="font-bold text-yellow-400">{m.value}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Tools Stack */}
-              <div class="space-y-2 pt-4 border-t border-white/10">
-                <span class="text-xs font-mono text-slate-400 uppercase tracking-wider block">Analytical Toolstack</span>
-                <div class="flex flex-wrap gap-1.5">
-                  {project.tools.map((t) => (
-                    <span class="px-2.5 py-1 rounded text-xs font-mono bg-[#161924] text-slate-200 border border-white/10">
-                      {t}
+                  <StarBorder client:visible color="#facc15" speed="4s">
+                    <span class="px-3 py-1 rounded-md text-xs font-mono font-semibold text-black bg-yellow-400 shadow-[0_0_10px_rgba(234,179,8,0.4)] block">
+                      FLAGSHIP PROJECT
                     </span>
-                  ))}
+                  </StarBorder>
+
+                  <span class="px-3 py-1 rounded-md text-xs font-mono font-semibold text-slate-300 bg-[#161924] border border-white/10 inline-flex items-center gap-1.5">
+                    {project.inDevelopment && <span class="w-2 h-2 rounded-full bg-yellow-400 animate-pulse"></span>}
+                    <span>{project.statusText}</span>
+                  </span>
+                </div>
+
+                <span class="text-xs font-mono text-slate-400">
+                  {project.category}
+                </span>
+              </div>
+
+              <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                <div class="lg:col-span-7 space-y-4">
+                  <div class="space-y-1">
+                    <h3 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+                      <a href={`/projects/${project.slug}`} class="hover:text-yellow-400 transition-colors">
+                        {project.title}
+                      </a>
+                    </h3>
+                    <p class="text-sm font-mono text-yellow-400 font-semibold">
+                      {project.subtitle}
+                    </p>
+                  </div>
+
+                  <p class="text-sm sm:text-base text-slate-300 leading-relaxed">
+                    {project.shortDesc}
+                  </p>
+
+                  <div class="space-y-2 pt-2">
+                    <span class="text-xs font-mono font-bold text-white uppercase tracking-wider block">
+                      Key Analytical Highlights & Deliverables:
+                    </span>
+                    <ul class="space-y-1.5 text-xs font-mono text-slate-300">
+                      {project.summaryPoints.map((point) => (
+                        <li class="flex items-start gap-2">
+                          <span class="w-1.5 h-1.5 rounded-full bg-yellow-400 shrink-0 mt-1.5"></span>
+                          <span>{point}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+
+                <div class="lg:col-span-5 p-6 rounded-xl bg-[#090a0d] border border-white/10 space-y-6">
+                  <div class="space-y-2">
+                    <span class="text-xs font-mono text-slate-400 uppercase tracking-wider block">Core Benchmark Metrics</span>
+                    <div class="grid grid-cols-1 gap-2 text-xs font-mono">
+                      {project.keyMetrics.map((m) => {
+                        const parsed = parseMetricValue(m.value);
+                        return (
+                          <div class="flex items-center justify-between p-2 rounded bg-[#0f1118] border border-white/10 hover:border-yellow-500/40 transition-colors">
+                            <span class="text-slate-400">{m.label}:</span>
+                            <span class="font-bold text-yellow-400">
+                              {parsed ? (
+                                <CountUp client:visible to={parsed.num} prefix={parsed.prefix} suffix={parsed.suffix} duration={1.5} />
+                              ) : (
+                                m.value
+                              )}
+                            </span>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+
+                  <div class="space-y-2 pt-4 border-t border-white/10">
+                    <span class="text-xs font-mono text-slate-400 uppercase tracking-wider block">Analytical Toolstack</span>
+                    <div class="flex flex-wrap gap-1.5">
+                      {project.tools.map((t) => (
+                        <span class="px-2.5 py-1 rounded text-xs font-mono bg-[#161924] text-slate-200 border border-white/10">
+                          {t}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div class="pt-2 flex flex-col sm:flex-row gap-2.5">
+                    <a
+                      href={`/projects/${project.slug}`}
+                      class="flex-1 inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-md bg-yellow-400 hover:bg-yellow-300 text-black text-xs font-extrabold font-mono shadow-[0_0_20px_rgba(234,179,8,0.25)] transition-all duration-200"
+                    >
+                      <span>View Case Study</span>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="transition-transform duration-200 group-hover:translate-x-1">
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                        <polyline points="12 5 19 12 12 19"></polyline>
+                      </svg>
+                    </a>
+
+                    {project.githubUrl && project.githubUrl.startsWith('http') && (
+                      <a
+                        href={project.githubUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="inline-flex items-center justify-center gap-2 px-3.5 py-2.5 rounded-md bg-[#161924]/80 backdrop-blur-md border border-white/20 hover:border-yellow-400 text-slate-200 hover:text-yellow-400 text-xs font-semibold font-mono transition-all duration-200 transform hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-offset-2 focus:ring-offset-[#0d0e12]"
+                        title="Open GitHub Repository in a new tab"
+                      >
+                        <svg class="w-4 h-4 text-yellow-400 shrink-0" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                          <path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd" />
+                        </svg>
+                        <span>GitHub Repository</span>
+                      </a>
+                    )}
+                  </div>
                 </div>
               </div>
+            </TiltedCard>
+          ) : (
+            <div 
+              class={`hover-card-product group bg-[#0f1118]/90 backdrop-blur-md border rounded-xl p-6 sm:p-10 space-y-8 shadow-xl transition-all duration-300 scroll-reveal-scale border-white/10`}
+              data-delay={idx * 100}
+            >
+              {/* Card Header Bar */}
+              <div class="flex flex-wrap items-center justify-between gap-3 border-b border-white/10 pb-6">
+                <div class="flex items-center gap-3">
+                  <span class="font-mono text-sm font-bold text-yellow-400 bg-yellow-500/10 px-2.5 py-1 rounded border border-yellow-500/30">
+                    PROJECT 0{idx + 1}
+                  </span>
 
-              {/* Action Buttons */}
-              <div class="pt-2 flex flex-col sm:flex-row gap-2.5">
-                <a
-                  href={`/projects/${project.slug}`}
-                  class="flex-1 inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-md bg-yellow-400 hover:bg-yellow-300 text-black text-xs font-extrabold font-mono shadow-[0_0_20px_rgba(234,179,8,0.25)] transition-all duration-200"
-                >
-                  <span>View Case Study</span>
-                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="transition-transform duration-200 group-hover:translate-x-1">
-                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                    <polyline points="12 5 19 12 12 19"></polyline>
-                  </svg>
-                </a>
+                  <span class="px-3 py-1 rounded-md text-xs font-mono font-semibold text-slate-300 bg-[#161924] border border-white/10 inline-flex items-center gap-1.5">
+                    {project.inDevelopment && <span class="w-2 h-2 rounded-full bg-yellow-400 animate-pulse"></span>}
+                    <span>{project.statusText}</span>
+                  </span>
+                </div>
 
-                {project.githubUrl && project.githubUrl.startsWith('http') && (
-                  <a
-                    href={project.githubUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="inline-flex items-center justify-center gap-2 px-3.5 py-2.5 rounded-md bg-[#161924]/80 backdrop-blur-md border border-white/20 hover:border-yellow-400 text-slate-200 hover:text-yellow-400 text-xs font-semibold font-mono transition-all duration-200 transform hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-offset-2 focus:ring-offset-[#0d0e12]"
-                    title="Open GitHub Repository in a new tab"
-                  >
-                    <svg class="w-4 h-4 text-yellow-400 shrink-0" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                      <path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd" />
-                    </svg>
-                    <span>GitHub Repository</span>
-                  </a>
-                )}
-
-                {project.presentationUrl && (
-                  <a
-                    href={project.presentationUrl}
-                    target="_blank"
-                    rel="noreferrer"
-                    class="inline-flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-md bg-[#161924] border border-yellow-500/40 text-yellow-400 hover:bg-yellow-500/20 hover:border-yellow-400 text-xs font-semibold font-mono transition-colors"
-                    title="View PDF Presentation"
-                  >
-                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                      <polyline points="14 2 14 8 20 8"></polyline>
-                      <line x1="16" y1="13" x2="8" y2="13"></line>
-                      <line x1="16" y1="17" x2="8" y2="17"></line>
-                    </svg>
-                    <span>PDF ↗</span>
-                  </a>
-                )}
+                <span class="text-xs font-mono text-slate-400">
+                  {project.category}
+                </span>
               </div>
 
+              <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                <div class="lg:col-span-7 space-y-4">
+                  <div class="space-y-1">
+                    <h3 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+                      <a href={`/projects/${project.slug}`} class="hover:text-yellow-400 transition-colors">
+                        {project.title}
+                      </a>
+                    </h3>
+                    <p class="text-sm font-mono text-yellow-400 font-semibold">
+                      {project.subtitle}
+                    </p>
+                  </div>
+
+                  <p class="text-sm sm:text-base text-slate-300 leading-relaxed">
+                    {project.shortDesc}
+                  </p>
+
+                  <div class="space-y-2 pt-2">
+                    <span class="text-xs font-mono font-bold text-white uppercase tracking-wider block">
+                      Key Analytical Highlights & Deliverables:
+                    </span>
+                    <ul class="space-y-1.5 text-xs font-mono text-slate-300">
+                      {project.summaryPoints.map((point) => (
+                        <li class="flex items-start gap-2">
+                          <span class="w-1.5 h-1.5 rounded-full bg-yellow-400 shrink-0 mt-1.5"></span>
+                          <span>{point}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+
+                <div class="lg:col-span-5 p-6 rounded-xl bg-[#090a0d] border border-white/10 space-y-6">
+                  <div class="space-y-2">
+                    <span class="text-xs font-mono text-slate-400 uppercase tracking-wider block">Core Benchmark Metrics</span>
+                    <div class="grid grid-cols-1 gap-2 text-xs font-mono">
+                      {project.keyMetrics.map((m) => {
+                        const parsed = parseMetricValue(m.value);
+                        return (
+                          <div class="flex items-center justify-between p-2 rounded bg-[#0f1118] border border-white/10 hover:border-yellow-500/40 transition-colors">
+                            <span class="text-slate-400">{m.label}:</span>
+                            <span class="font-bold text-yellow-400">
+                              {parsed ? (
+                                <CountUp client:visible to={parsed.num} prefix={parsed.prefix} suffix={parsed.suffix} duration={1.5} />
+                              ) : (
+                                m.value
+                              )}
+                            </span>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+
+                  <div class="space-y-2 pt-4 border-t border-white/10">
+                    <span class="text-xs font-mono text-slate-400 uppercase tracking-wider block">Analytical Toolstack</span>
+                    <div class="flex flex-wrap gap-1.5">
+                      {project.tools.map((t) => (
+                        <span class="px-2.5 py-1 rounded text-xs font-mono bg-[#161924] text-slate-200 border border-white/10">
+                          {t}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div class="pt-2 flex flex-col sm:flex-row gap-2.5">
+                    <a
+                      href={`/projects/${project.slug}`}
+                      class="flex-1 inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-md bg-yellow-400 hover:bg-yellow-300 text-black text-xs font-extrabold font-mono shadow-[0_0_20px_rgba(234,179,8,0.25)] transition-all duration-200"
+                    >
+                      <span>View Case Study</span>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="transition-transform duration-200 group-hover:translate-x-1">
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                        <polyline points="12 5 19 12 12 19"></polyline>
+                      </svg>
+                    </a>
+
+                    {project.githubUrl && project.githubUrl.startsWith('http') && (
+                      <a
+                        href={project.githubUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="inline-flex items-center justify-center gap-2 px-3.5 py-2.5 rounded-md bg-[#161924]/80 backdrop-blur-md border border-white/20 hover:border-yellow-400 text-slate-200 hover:text-yellow-400 text-xs font-semibold font-mono transition-all duration-200 transform hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-offset-2 focus:ring-offset-[#0d0e12]"
+                        title="Open GitHub Repository in a new tab"
+                      >
+                        <svg class="w-4 h-4 text-yellow-400 shrink-0" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                          <path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd" />
+                        </svg>
+                        <span>GitHub Repository</span>
+                      </a>
+                    )}
+                  </div>
+                </div>
+              </div>
             </div>
-
-          </div>
-
-        </div>
+          )}
+        </SpotlightCard>
       ))}
     </div>
 

@@ -1,9 +1,15 @@
 ---
 import { siteConfig } from '../data/siteConfig';
+import Beams from './reactbits/Beams';
+import StarBorder from './reactbits/StarBorder';
 ---
 
-<section id="contact" class="py-16 sm:py-24 border-b border-white/10 text-left">
-  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+<section id="contact" class="py-16 sm:py-24 border-b border-white/10 text-left relative overflow-hidden">
+  
+  {/* ReactBits Beams Background */}
+  <Beams client:visible />
+
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12 relative z-10">
     
     {/* Section Header */}
     <div class="space-y-3 max-w-3xl scroll-reveal">
@@ -129,13 +135,15 @@ import { siteConfig } from '../data/siteConfig';
               ></textarea>
             </div>
 
-            <button
-              id="submit-btn"
-              type="submit"
-              class="w-full py-3.5 rounded-md bg-yellow-400 hover:bg-yellow-300 text-black text-xs font-extrabold font-mono tracking-wider shadow-[0_0_20px_rgba(234,179,8,0.3)] transition-colors flex items-center justify-center gap-2"
-            >
-              <span id="btn-text">Submit Inquiry</span>
-            </button>
+            <StarBorder client:visible color="#facc15" speed="4s" className="w-full">
+              <button
+                id="submit-btn"
+                type="submit"
+                class="w-full py-3.5 rounded-md bg-yellow-400 hover:bg-yellow-300 text-black text-xs font-extrabold font-mono tracking-wider shadow-[0_0_20px_rgba(234,179,8,0.3)] transition-colors flex items-center justify-center gap-2"
+              >
+                <span id="btn-text">Submit Inquiry</span>
+              </button>
+            </StarBorder>
 
           </form>
 
