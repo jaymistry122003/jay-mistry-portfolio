@@ -135,9 +135,20 @@ function parseMetricValue(valStr) {
                   </div>
 
                   <div class="pt-2 flex flex-col sm:flex-row gap-2.5">
+                    {project.liveUrl && (
+                      <a
+                        href={project.liveUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="flex-1 inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-md bg-yellow-400 hover:bg-yellow-300 text-black text-xs font-extrabold font-mono shadow-[0_0_20px_rgba(234,179,8,0.35)] transition-all duration-200"
+                      >
+                        <span>View Live AI Data Analyst Agent ↗</span>
+                      </a>
+                    )}
+
                     <a
                       href={`/projects/${project.slug}`}
-                      class="flex-1 inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-md bg-yellow-400 hover:bg-yellow-300 text-black text-xs font-extrabold font-mono shadow-[0_0_20px_rgba(234,179,8,0.25)] transition-all duration-200"
+                      class={`${project.liveUrl ? 'inline-flex' : 'flex-1 inline-flex'} items-center justify-center gap-1.5 px-4 py-2.5 rounded-md bg-[#161924] hover:bg-white/10 text-white border border-white/15 hover:border-yellow-400 text-xs font-semibold font-mono transition-all duration-200`}
                     >
                       <span>View Case Study</span>
                       <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="transition-transform duration-200 group-hover:translate-x-1">

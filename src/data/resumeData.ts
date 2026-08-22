@@ -42,11 +42,27 @@ export const resumeData = {
   
   experiences: [
     {
-      role: "Business Data Analyst",
-      company: "BIT Infotech",
-      period: "July 2026 – Present",
+      role: "AI MIS Consultant | Data Analysis & Automation",
+      company: "Jasmine Infinite Pvt Ltd",
+      period: "August 2026 – Present",
       location: "Vadodara, Gujarat, India",
       isCurrent: true,
+      summary: "Analyze business and operational data to identify trends, performance gaps, and improvement opportunities, translating findings into actionable recommendations for leadership.",
+      workflow: ["ANALYZE", "AUTOMATE", "POWER BI", "SQL", "TRANSFORM"],
+      skills: ["SQL", "Excel", "Python", "Power BI", "MIS Reporting", "Process Automation", "Data Analysis", "AI-Assisted Tools"],
+      highlights: [
+        "Analyze business and operational data to identify trends, performance gaps, and improvement opportunities, translating findings into actionable recommendations for leadership.",
+        "Build and maintain Power BI dashboards and reports tracking key business metrics, enabling data-driven decision-making across teams.",
+        "Apply SQL, Excel, and Python-based analysis to clean, validate, and interpret datasets, ensuring accuracy and reliability of business reporting.",
+        "Partner with cross-functional stakeholders to gather reporting requirements and streamline recurring analysis workflows using AI-assisted tools."
+      ]
+    },
+    {
+      role: "Business Data Analyst",
+      company: "Bit Infotech",
+      period: "June 2026 – July 2026",
+      location: "Vadodara, Gujarat, India",
+      isCurrent: false,
       summary: "Improving data readiness, extracting and validating structured datasets, and building interactive Power BI dashboards for operational reporting and business decision-making.",
       workflow: ["DATA", "CLEAN", "ANALYZE", "VISUALIZE", "INSIGHT"],
       skills: ["SQL", "Python", "Excel", "Power BI", "EDA", "Statistical Analysis", "Data Validation", "Data Visualization"],

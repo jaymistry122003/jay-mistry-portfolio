@@ -1,61 +1,63 @@
 ---
-title: "AI Data Analyst Agent"
+title: "Your Dataset, Your Rules (AI Data Analyst Agent)"
 subtitle: "Autonomous LLM-Powered Analytical Engine"
 category: "AI & Analytical Systems"
 isFlagship: true
-inDevelopment: true
-statusText: "In Development / Production Build"
+inDevelopment: false
+statusText: "Completed & Deployed Flagship Project"
 role: "AI & Data Systems Developer"
-tools: ["Python", "LLMs & Prompt Engineering", "SQL", "Pandas", "Streamlit / API Framework"]
+tools: ["Python", "FastAPI", "React", "LLMs", "Groq", "DuckDB", "Pandas", "SQL", "Plotly"]
 metrics:
-  - "In Active Production Development"
-  - "Automated NL-to-SQL Translation"
-  - "Sub-second Insight Synthesis"
-githubUrl: "https://github.com/jaymistry122003"
+  - "Completed & Deployed"
+  - "Cloudflare Workers & Render"
+  - "Groq LLM Orchestration"
+githubUrl: "https://github.com/jaymistry122003/ai-data-analyst-agent"
+liveUrl: "https://ai-data-analyst-agent.capricious-atmosphere.workers.dev/"
 publishDate: "2025-01-15"
 ---
 
-## Executive Summary & Current Status
+## Executive Summary & Status
 
-The **AI Data Analyst Agent** is an autonomous analytical system currently under **active production development**. It is designed to assist data analysts and business stakeholders by automating exploratory data analysis (EDA), translating natural language prompts into syntactically valid SQL queries, and synthesizing executive narrative summaries.
+The **Your Dataset, Your Rules (AI Data Analyst Agent)** is a full-stack analytical system successfully **completed and deployed** in production. It enables users to upload CSV datasets and perform natural-language analysis through dynamically routed SQL, Python, statistical analysis, and interactive visualization workflows.
 
-> **Status Notice:** This flagship project is actively in development. Features described represent functional architectural modules built and tested in development environments.
+> **Production Deployment:** Live application is deployed and available at [`https://ai-data-analyst-agent.capricious-atmosphere.workers.dev/`](https://ai-data-analyst-agent.capricious-atmosphere.workers.dev/).
 
 ---
 
 ### 1. What Was the Problem?
-Ad-hoc exploratory data analysis creates operational bottlenecks. Non-technical decision-makers frequently submit tickets for routine SQL aggregations or revenue trend breakdowns, resulting in turnarounds of hours or days. Conversely, raw LLM queries against databases risk hallucinated column names, invalid SQL syntax, or security vulnerabilities.
+Ad-hoc exploratory data analysis creates operational bottlenecks. Non-technical decision-makers and analysts require automated, reliable natural-language interfaces for dataset profiling, SQL query generation, statistical testing, and interactive visualization without risking schema hallucinations or security vulnerabilities.
 
 ### 2. What Data Was Involved?
-* **Relational Database Schemas:** Multi-table schemas (PostgreSQL / MySQL) containing sales transactions, customer demographics, inventory logs, and product metadata.
-* **Schema Metadata:** Column definitions, data types, primary/foreign key constraints, and information schema views.
-* **QueryResult Tables:** Structured tabular result sets returned from SQL execution.
+* **Uploaded Datasets:** User-uploaded CSV datasets, multi-table schemas, and Parquet/structured data processed via DuckDB and Pandas.
+* **Metadata & Data Quality:** Automated data profiling, data-quality auditing, data type inference, and schema reflection.
+* **QueryResult Tables & Visualizations:** Interactive Plotly/Matplotlib charts and structured tabular result sets generated dynamically.
 
 ### 3. What Did I Actually Do?
-* Architected an end-to-end Python pipeline connecting natural language prompts to database execution layers.
-* Built a schema context indexer that reflects database metadata and injects relevant table definitions into LLM prompt payloads to prevent schema hallucinations.
-* Implemented an AST (Abstract Syntax Tree) SQL parser to enforce read-only execution guardrails, blocking destructive commands (`DROP`, `DELETE`, `UPDATE`).
-* Built a post-processing narrative synthesis module that converts numerical query results into structured executive highlights.
+* Built and deployed a full-stack AI Data Analyst Agent enabling users to upload CSV datasets and perform natural-language analysis through dynamically routed SQL, Python, statistical analysis, and visualization workflows.
+* Engineered the analytics backend using FastAPI, Pandas, DuckDB, and Groq-based LLM orchestration, incorporating sandboxed Python execution, restricted SQL access, execution timeouts, intent routing, model fallback, and hallucination safeguards.
+* Developed automated data profiling, data-quality auditing, statistical significance testing, and interactive Plotly/Matplotlib visualizations for end-to-end exploratory and decision-support analysis.
+* Built a production React frontend with streaming responses and lazy-loaded visualizations; deployed on Cloudflare Workers with a FastAPI backend on Render, including production regression testing.
 
 ### 4. What Tools Did I Use?
-* **Python 3.11:** System orchestration and data processing.
-* **LLMs & Prompt Engineering:** System prompting, JSON output enforcement, and chain-of-thought SQL generation.
-* **SQL & SQLAlchemy:** Database connection pooling, schema reflection, and query execution.
-* **Pandas & NumPy:** Tabular data manipulation and statistical summarization.
-* **Streamlit / API Framework:** Interactive user interface for prompt input and analytical result rendering.
+* **Python & FastAPI:** Asynchronous analytics API backend, sandboxed execution, and process orchestration.
+* **React:** Production frontend with streaming responses and lazy-loaded visualizations.
+* **LLMs & Groq:** Groq-based LLM orchestration with intent routing and model fallback.
+* **DuckDB & SQL:** In-memory analytical database engine with restricted SQL access guardrails.
+* **Pandas & Plotly:** Data manipulation, statistical testing, and interactive Plotly/Matplotlib charts.
 
 ### 5. What Analysis & Methodology Did I Apply?
 ```
-[ User Prompt ] ──> [ Schema Context Injection ] ──> [ LLM Prompt Engine ] ──> [ AST SQL Guardrails ] ──> [ DB Execution ] ──> [ Executive Summary ]
+[ CSV Dataset / User Prompt ] ──> [ Intent Routing ] ──> [ Groq LLM Orchestration ] ──> [ Sandboxed Python / Restricted SQL ] ──> [ DuckDB / Pandas Execution ] ──> [ Plotly Charts & Data Quality Audit ]
 ```
-Applied schema-aware prompt engineering, AST SQL parsing for read-only validation, and statistical variance calculation on query outputs.
+Applied intent routing, sandboxed Python execution, restricted SQL access, execution timeouts, model fallback, and hallucination safeguards.
 
 ### 6. What Did the Analysis Reveal?
-Initial testing on dev schemas demonstrated that schema-injected prompting eliminates schema hallucination errors on multi-table `JOIN` queries, producing valid SQL queries for standard analytical requests.
+Automated data profiling, data-quality auditing, and statistical significance testing provide instant decision-support analysis on user-uploaded datasets with full security guardrails.
 
 ### 7. What Business Decisions or Recommendations Came From It?
-Proposes shifting routine ad-hoc data lookups to automated AI agent workflows, allowing data analysts to focus on high-impact strategic projects.
+Streamlines ad-hoc analytical requests into automated AI agent workflows, accelerating exploratory analysis and decision support for analytical teams.
 
 ### 8. What Can the Visitor Inspect Further?
-* **Development Repository:** [`https://github.com/jaymistry122003`](https://github.com/jaymistry122003)
+* **Live Application:** [`View Live AI Data Analyst Agent`](https://ai-data-analyst-agent.capricious-atmosphere.workers.dev/)
+* **GitHub Repository:** [`https://github.com/jaymistry122003/ai-data-analyst-agent`](https://github.com/jaymistry122003/ai-data-analyst-agent)
 * **System Architecture:** Detailed in the workflow diagram above.

@@ -20,26 +20,28 @@ export interface Project {
 export const projectsData: Project[] = [
   {
     slug: "ai-data-analyst-agent",
-    title: "AI Data Analyst Agent",
+    title: "Your Dataset, Your Rules (AI Data Analyst Agent)",
     subtitle: "Autonomous LLM-Powered Analytical Engine",
     category: "AI & Analytical Systems",
     isFlagship: true,
-    inDevelopment: true,
-    statusText: "In Development / Production Build",
-    shortDesc: "An intelligent analytical system designed to automate exploratory data analysis, SQL query generation, AST safety guardrails, and natural language insight synthesis.",
+    inDevelopment: false,
+    statusText: "Completed & Deployed Flagship Project",
+    shortDesc: "Built and deployed a full-stack AI Data Analyst Agent enabling users to upload CSV datasets and perform natural-language analysis through dynamically routed SQL, Python, statistical analysis, and visualization workflows.",
     problemStatement: "Ad-hoc exploratory data analysis creates bottlenecks for analytical teams, requiring automated schema context parsing and NL-to-SQL translation.",
     role: "AI & Data Systems Developer",
-    tools: ["Python", "LLMs & Prompt Engineering", "SQL", "Pandas", "Streamlit / API Framework"],
+    tools: ["Python", "FastAPI", "React", "LLMs", "Groq", "DuckDB", "Pandas", "SQL", "Plotly"],
     keyMetrics: [
-      { label: "Status", value: "In Production Build / Development" },
-      { label: "Query Engine", value: "Automated NL-to-SQL Translation" },
-      { label: "Workflow", value: "Natural Language Data Insights" }
+      { label: "Status", value: "Completed & Deployed" },
+      { label: "Frontend", value: "React on Cloudflare Workers" },
+      { label: "Backend", value: "FastAPI on Render" }
     ],
-    githubUrl: "https://github.com/jaymistry122003",
+    githubUrl: "https://github.com/jaymistry122003/ai-data-analyst-agent",
+    liveUrl: "https://ai-data-analyst-agent.capricious-atmosphere.workers.dev/",
     summaryPoints: [
-      "Designed to automate repetitive exploratory data analysis workflows.",
-      "Integrates LLM reasoning with schema context injection and AST safety guardrails.",
-      "Produces human-readable narrative summaries alongside data query results."
+      "Built and deployed a full-stack AI Data Analyst Agent enabling users to upload CSV datasets and perform natural-language analysis through dynamically routed SQL, Python, statistical analysis, and visualization workflows.",
+      "Engineered the analytics backend using FastAPI, Pandas, DuckDB, and Groq-based LLM orchestration, incorporating sandboxed Python execution, restricted SQL access, execution timeouts, intent routing, model fallback, and hallucination safeguards.",
+      "Developed automated data profiling, data-quality auditing, statistical significance testing, and interactive Plotly/Matplotlib visualizations for end-to-end exploratory and decision-support analysis.",
+      "Built a production React frontend with streaming responses and lazy-loaded visualizations; deployed on Cloudflare Workers with a FastAPI backend on Render, including production regression testing."
     ]
   },
   {

@@ -75,10 +75,10 @@ const deliverablesList = frontmatter.deliverables && frontmatter.deliverables.le
             </span>
           )}
 
-          {frontmatter.inDevelopment && (
+          {frontmatter.statusText && (
             <span class="px-3 py-1 rounded-md text-xs font-mono font-semibold text-slate-200 bg-[#161924] border border-white/10 inline-flex items-center gap-1.5">
-              <span class="w-2 h-2 rounded-full bg-yellow-400 animate-pulse"></span>
-              <span>{frontmatter.statusText || 'In Development'}</span>
+              <span class={`w-2 h-2 rounded-full ${frontmatter.inDevelopment ? 'bg-yellow-400 animate-pulse' : 'bg-emerald-400'}`}></span>
+              <span>{frontmatter.statusText}</span>
             </span>
           )}
         </div>
@@ -238,10 +238,10 @@ const deliverablesList = frontmatter.deliverables && frontmatter.deliverables.le
           <a
             href={frontmatter.liveUrl}
             target="_blank"
-            rel="noreferrer"
-            class="px-5 py-2.5 rounded-md bg-[#0f1118] border border-yellow-500/40 text-yellow-400 hover:bg-yellow-500/10 text-xs font-semibold font-mono transition-colors"
+            rel="noopener noreferrer"
+            class="px-5 py-2.5 rounded-md bg-yellow-400 hover:bg-yellow-300 text-black text-xs font-extrabold font-mono shadow-[0_0_20px_rgba(234,179,8,0.35)] transition-all duration-200"
           >
-            View Live Demo ↗
+            View Live AI Data Analyst Agent ↗
           </a>
         )}
       </div>

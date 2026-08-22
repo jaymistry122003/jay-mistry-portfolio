@@ -86,6 +86,20 @@ const healthlinkProject = projectsData.find(p => p.slug === 'healthlink-solution
             </div>
           </div>
 
+          {flagshipProject.liveUrl && (
+            <div class="space-y-2 pt-4 border-t border-[#e6e5df]">
+              <span class="text-xs font-mono text-[#717580] uppercase tracking-wider block">Live Production Application</span>
+              <a
+                href={flagshipProject.liveUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="w-full inline-flex items-center justify-center gap-2 px-5 py-3 rounded-md bg-[#800020] hover:bg-[#650019] text-white text-xs font-bold font-mono shadow-md hover:shadow-lg transition-all duration-200"
+              >
+                <span>View Live AI Data Analyst Agent ↗</span>
+              </a>
+            </div>
+          )}
+
           <div class="space-y-2 pt-4 border-t border-[#e6e5df]">
             <span class="text-xs font-mono text-[#717580] uppercase tracking-wider block">GitHub Repository</span>
             <a
@@ -104,7 +118,7 @@ const healthlinkProject = projectsData.find(p => p.slug === 'healthlink-solution
           <div class="pt-2 flex flex-col sm:flex-row gap-3">
             <a
               href={`/projects/${flagshipProject.slug}`}
-              class="flex-1 inline-flex items-center justify-center gap-2 px-5 py-3 rounded-md bg-[#800020] hover:bg-[#650019] text-white text-xs font-semibold font-mono shadow-sm transition-colors"
+              class="flex-1 inline-flex items-center justify-center gap-2 px-5 py-3 rounded-md bg-[#121316] hover:bg-[#252830] text-white text-xs font-semibold font-mono shadow-sm transition-colors"
             >
               <span>View Case Study</span>
               <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
